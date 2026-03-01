@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz de Biologia – 1º Ano</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #2d6a4f;
+    --green-light: #52b788;
+    --green-pale: #d8f3dc;
+    --yellow: #f4d03f;
+    --red: #e74c3c;
+    --white: #f9fafb;
+    --dark: #1b2b22;
+    --radius: 18px;
+    --shadow: 0 8px 32px rgba(44,106,79,0.13);
+
+    /* Tamanhos base (celular) */
+    --fs-title: clamp(1.6rem, 5vw, 3rem);
+    --fs-sub: clamp(1rem, 3vw, 1.5rem);
+    --fs-topic: clamp(0.75rem, 2vw, 1rem);
+    --fs-question: clamp(1.1rem, 3.2vw, 1.85rem);
+    --fs-option: clamp(1rem, 2.6vw, 1.45rem);
+    --fs-feedback: clamp(0.9rem, 2.2vw, 1.25rem);
+    --fs-btn: clamp(1rem, 2.8vw, 1.6rem);
+    --fs-counter: clamp(0.85rem, 2vw, 1.1rem);
+    --fs-score: clamp(3rem, 10vw, 5rem);
+    --fs-result-title: clamp(1.4rem, 4vw, 2.4rem);
+    --fs-stars: clamp(1.8rem, 5vw, 2.5rem);
+
+    --card-pad: clamp(20px, 4vw, 48px);
+    --gap: clamp(10px, 2vw, 16px);
+    --letter-size: clamp(34px, 6vw, 44px);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, #1b2b22 0%, #2d6a4f 60%, #52b788 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(12px, 3vw, 24px);
+  }
+
+  #app {
+    width: 100%;
+    max-width: min(980px, 100%);
+  }
+
+  /* ── TELA INICIAL ── */
+  #screen-start {
+    text-align: center;
+    color: var(--white);
+    animation: fadeIn 0.6s ease;
+    padding: clamp(16px, 4vw, 40px);
+  }
+  #screen-start h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--fs-title);
+    line-height: 1.15;
+    margin-bottom: 12px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+  #screen-start p {
+    font-size: var(--fs-sub);
+    opacity: 0.88;
+    margin-bottom: 8px;
+  }
+  #screen-start .sub {
+    font-size: clamp(0.85rem, 2.5vw, 1.2rem);
+    opacity: 0.7;
+    margin-bottom: clamp(24px, 5vw, 36px);
+  }
+  .btn-start {
+    background: var(--yellow);
+    color: var(--dark);
+    border: none;
+    border-radius: 50px;
+    padding: clamp(14px, 3vw, 20px) clamp(32px, 7vw, 60px);
+    font-family: 'Nunito', sans-serif;
+    font-size: var(--fs-btn);
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn-start:hover { transform: scale(1.06); }
+  .btn-start:active { transform: scale(0.97); }
+
+  /* ── PROGRESSO ── */
+  .progress-bar-wrap {
+    background: rgba(255,255,255,0.18);
+    border-radius: 50px;
+    height: clamp(7px, 1.5vw, 10px);
+    margin-bottom: clamp(14px, 3vw, 24px);
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    background: var(--yellow);
+    border-radius: 50px;
+    transition: width 0.5s ease;
+  }
+  .q-counter {
+    color: rgba(255,255,255,0.8);
+    font-size: var(--fs-counter);
+    font-weight: 700;
+    text-align: right;
+    margin-bottom: 8px;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: var(--card-pad);
+  }
+
+  .q-label {
+    font-size: var(--fs-topic);
+    font-weight: 700;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: clamp(10px, 2vw, 14px);
+  }
+  .q-text {
+    font-size: var(--fs-question);
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.4;
+    margin-bottom: clamp(18px, 4vw, 32px);
+  }
+
+  /* ── ALTERNATIVAS ── */
+  /* Mobile: empilhadas; Desktop: 2 colunas */
+  .options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--gap);
+  }
+  @media (min-width: 640px) {
+    .options { grid-template-columns: 1fr 1fr; }
+  }
+
+  .option {
+    display: flex;
+    align-items: center;
+    gap: clamp(10px, 2vw, 16px);
+    background: var(--green-pale);
+    border: 3px solid transparent;
+    border-radius: 14px;
+    padding: clamp(12px, 2.5vw, 20px) clamp(14px, 3vw, 24px);
+    font-size: var(--fs-option);
+    font-weight: 700;
+    color: var(--dark);
+    cursor: pointer;
+    transition: all 0.18s;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .option:hover:not(.disabled) {
+    border-color: var(--green-light);
+    background: #b7e4c7;
+    transform: translateY(-2px);
+  }
+  .option:active:not(.disabled) { transform: scale(0.98); }
+
+  .option .letter {
+    background: var(--green);
+    color: #fff;
+    border-radius: 50%;
+    width: var(--letter-size);
+    height: var(--letter-size);
+    min-width: var(--letter-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
+    font-weight: 900;
+    flex-shrink: 0;
+  }
+
+  .option.correct { background: #b7e4c7; border-color: var(--green); }
+  .option.correct .letter { background: var(--green); }
+  .option.wrong { background: #fce4e4; border-color: var(--red); }
+  .option.wrong .letter { background: var(--red); }
+  .option.disabled { cursor: default; }
+
+  /* ── FEEDBACK ── */
+  .feedback-box {
+    margin-top: clamp(14px, 3vw, 24px);
+    padding: clamp(12px, 2.5vw, 18px) clamp(14px, 3vw, 24px);
+    border-radius: 12px;
+    font-size: var(--fs-feedback);
+    font-weight: 700;
+    display: none;
+    gap: clamp(8px, 2vw, 12px);
+    line-height: 1.5;
+  }
+  .feedback-box.show { display: flex; align-items: flex-start; }
+  .feedback-box.ok { background: #d8f3dc; color: #1b4332; }
+  .feedback-box.err { background: #fde8e8; color: #7b2020; }
+  .feedback-icon { font-size: clamp(1.2rem, 3vw, 1.6rem); flex-shrink: 0; }
+
+  /* ── BOTÃO PRÓXIMA ── */
+  .btn-next {
+    display: block;
+    margin: clamp(18px, 4vw, 28px) auto 0;
+    background: var(--green);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: clamp(12px, 2.5vw, 16px) clamp(32px, 7vw, 52px);
+    font-family: 'Nunito', sans-serif;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    font-weight: 900;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    width: 100%;
+    max-width: 320px;
+  }
+  .btn-next:hover { background: #1b4332; transform: scale(1.04); }
+  .btn-next:active { transform: scale(0.97); }
+
+  /* ── RESULTADO ── */
+  #screen-result {
+    text-align: center;
+    color: var(--white);
+    animation: fadeIn 0.5s ease;
+  }
+  .result-card {
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: clamp(28px, 6vw, 52px) clamp(20px, 5vw, 48px);
+    margin-bottom: clamp(18px, 4vw, 28px);
+    color: var(--dark);
+  }
+  .result-card h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--fs-result-title);
+    color: var(--green);
+    margin-bottom: 12px;
+  }
+  .score-number {
+    font-size: var(--fs-score);
+    font-weight: 900;
+    color: var(--green);
+    line-height: 1;
+    margin: 10px 0;
+  }
+  .score-sub {
+    font-size: clamp(0.95rem, 2.8vw, 1.4rem);
+    color: #555;
+    margin-bottom: 16px;
+    padding: 0 clamp(0px, 4vw, 20px);
+  }
+  .star-row { font-size: var(--fs-stars); margin-bottom: 8px; }
+
+  /* Gabarito detalhado no resultado (mobile-friendly) */
+  .review-btn {
+    background: transparent;
+    border: 2px solid var(--green);
+    color: var(--green);
+    border-radius: 50px;
+    padding: 10px 28px;
+    font-family: 'Nunito', sans-serif;
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    font-weight: 700;
+    cursor: pointer;
+    margin-bottom: 16px;
+    transition: all 0.2s;
+  }
+  .review-btn:hover { background: var(--green); color: #fff; }
+
+  #review-list { text-align: left; margin-top: 16px; }
+  .review-item {
+    border-left: 4px solid;
+    border-radius: 0 10px 10px 0;
+    padding: clamp(8px, 2vw, 12px) clamp(10px, 2.5vw, 16px);
+    margin-bottom: 10px;
+    font-size: clamp(0.85rem, 2.2vw, 1rem);
+    line-height: 1.5;
+  }
+  .review-item.ok-item { background: #d8f3dc; border-color: var(--green); }
+  .review-item.err-item { background: #fde8e8; border-color: var(--red); }
+  .review-item strong { display: block; margin-bottom: 4px; font-size: clamp(0.9rem, 2.3vw, 1.05rem); }
+
+  .btn-restart {
+    background: var(--yellow);
+    color: var(--dark);
+    border: none;
+    border-radius: 50px;
+    padding: clamp(14px, 3vw, 18px) clamp(32px, 7vw, 52px);
+    font-family: 'Nunito', sans-serif;
+    font-size: clamp(1rem, 2.8vw, 1.4rem);
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform 0.15s;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  }
+  .btn-restart:hover { transform: scale(1.05); }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- TELA INICIAL -->
+  <div id="screen-start">
+    <h1>🌿 Quiz de Biologia</h1>
+    <p>1º Ano do Ensino Médio</p>
+    <p class="sub">Introdução à Biologia · Origem da Vida · Método Científico</p>
+    <button class="btn-start" onclick="startQuiz()">▶ Iniciar Quiz</button>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="screen-quiz" class="hidden">
+    <div class="q-counter" id="q-counter"></div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    <div class="card">
+      <div class="q-label" id="q-label"></div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="options"></div>
+      <div class="feedback-box" id="feedback-box"></div>
+      <button class="btn-next hidden" id="btn-next" onclick="nextQuestion()">Próxima →</button>
+    </div>
+  </div>
+
+  <!-- RESULTADO -->
+  <div id="screen-result" class="hidden">
+    <div class="result-card">
+      <h2>Quiz Concluído! 🏆</h2>
+      <div class="star-row" id="stars"></div>
+      <div class="score-number" id="score-display"></div>
+      <div class="score-sub" id="score-msg"></div>
+      <button class="review-btn" onclick="toggleReview()">📋 Ver gabarito detalhado</button>
+      <div id="review-list" class="hidden"></div>
+    </div>
+    <button class="btn-restart" onclick="restartQuiz()">🔄 Tentar Novamente</button>
+  </div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: "Introdução à Biologia",
+    question: "A Biologia é a ciência que estuda os seres vivos. Qual das alternativas abaixo NÃO é uma característica dos seres vivos?",
+    options: [
+      "Realizam metabolismo para obter energia",
+      "São capazes de se reproduzir",
+      "Fabricam seus próprios átomos a partir do nada",
+      "Respondem a estímulos do ambiente"
+    ],
+    answer: 2,
+    explanation: "Os seres vivos não fabricam átomos — utilizam matéria e energia já existentes. Metabolismo, reprodução e resposta a estímulos são características reais dos seres vivos."
+  },
+  {
+    topic: "Composição da Matéria Viva",
+    question: "Qual dos grupos abaixo representa os quatro elementos químicos mais abundantes nos seres vivos?",
+    options: [
+      "Ferro, cálcio, sódio e potássio",
+      "Carbono, hidrogênio, oxigênio e nitrogênio",
+      "Fósforo, enxofre, cloro e magnésio",
+      "Zinco, cobre, iodo e flúor"
+    ],
+    answer: 1,
+    explanation: "C, H, O e N compõem cerca de 96% da matéria viva. Os demais elementos citados existem nos seres vivos, mas em quantidades bem menores."
+  },
+  {
+    topic: "Composição dos Seres Vivos",
+    question: "A água é a molécula mais abundante nos seres vivos. Uma das suas principais funções é:",
+    options: [
+      "Servir como fonte principal de energia",
+      "Atuar como solvente, transportando substâncias pelo organismo",
+      "Constituir a membrana plasmática das células",
+      "Armazenar as informações genéticas do organismo"
+    ],
+    answer: 1,
+    explanation: "A água dissolve e transporta substâncias — é o 'solvente universal'. A energia vem dos carboidratos; a membrana é formada por lipídios; o DNA armazena informações genéticas."
+  },
+  {
+    topic: "Abiogênese x Biogênese",
+    question: "A teoria da Abiogênese (geração espontânea) afirmava que:",
+    options: [
+      "Todo ser vivo origina-se de outro ser vivo preexistente",
+      "A vida surgiu uma única vez, há bilhões de anos",
+      "Seres vivos podiam surgir espontaneamente a partir de matéria sem vida",
+      "Os microrganismos vieram do espaço em meteoritos"
+    ],
+    answer: 2,
+    explanation: "A geração espontânea defendia que seres vivos surgiam da matéria inorgânica. Exemplo clássico: acreditava-se que ratos nasciam do trigo úmido."
+  },
+  {
+    topic: "Experimento de Francesco Redi",
+    question: "Redi colocou carne em frascos abertos e fechados para testar a geração espontânea. Qual foi sua conclusão?",
+    options: [
+      "Larvas surgiam espontaneamente em todos os frascos",
+      "Larvas apareciam apenas nos frascos fechados",
+      "Larvas só apareceram nos frascos abertos, onde moscas puderam pousar",
+      "Nenhum frasco apresentou larvas"
+    ],
+    answer: 2,
+    explanation: "Redi mostrou que as larvas só surgiam onde as moscas tinham acesso para depositar ovos. Isso contrariou a geração espontânea para organismos visíveis."
+  },
+  {
+    topic: "Método Científico",
+    question: "No experimento de Redi, para que serve o grupo controle (frascos abertos)?",
+    options: [
+      "Para confirmar que o experimento foi feito em laboratório",
+      "Para servir de base de comparação com o grupo experimental",
+      "Para garantir que nenhuma variável interfira no resultado",
+      "Para repetir o experimento com os mesmos resultados"
+    ],
+    answer: 1,
+    explanation: "O grupo controle mantém as condições normais e serve de referência para comparar com o grupo experimental, permitindo identificar a causa dos resultados."
+  },
+  {
+    topic: "Experimento de Pasteur",
+    question: "Pasteur usou frascos de 'pescoço de cisne' para refutar a geração espontânea. O que ele provou?",
+    options: [
+      "Que microrganismos não existem no ar",
+      "Que o calor destrói todos os nutrientes dos caldos",
+      "Que os microrganismos vinham do ar, e não surgiam do próprio caldo",
+      "Que seres vivos surgem apenas em ambientes quentes e úmidos"
+    ],
+    answer: 2,
+    explanation: "Pasteur mostrou que quando o ar entrava sem trazer poeira com micróbios, o caldo não se deteriorava. Os microrganismos vinham do ambiente — não surgiam espontaneamente."
+  },
+  {
+    topic: "Origem da Vida – Oparin e Haldane",
+    question: "A hipótese de Oparin e Haldane propõe que as primeiras moléculas orgânicas se formaram na Terra primitiva graças a:",
+    options: [
+      "Fotossíntese dos primeiros organismos aquáticos",
+      "Raios e calor agindo sobre gases como metano, amônia e vapor d'água",
+      "Decomposição de meteoritos ricos em oxigênio",
+      "Atividade de bactérias em vulcões submarinos"
+    ],
+    answer: 1,
+    explanation: "Raios, calor e radiação UV forneceram energia para combinar gases da atmosfera primitiva (CH₄, NH₃, H₂O), formando moléculas orgânicas no chamado 'caldo primordial'."
+  },
+  {
+    topic: "Experimento de Miller e Urey",
+    question: "Em 1953, Miller e Urey simularam a atmosfera primitiva em laboratório. O que eles conseguiram produzir?",
+    options: [
+      "A primeira célula viva artificial",
+      "Aminoácidos, moléculas essenciais para a vida",
+      "Moléculas de DNA em condições vulcânicas",
+      "Provas de que a vida veio de meteoritos"
+    ],
+    answer: 1,
+    explanation: "Miller e Urey produziram aminoácidos (blocos construtores das proteínas) usando descargas elétricas sobre gases que simulavam a atmosfera primitiva — apoiando a hipótese de Oparin."
+  },
+  {
+    topic: "Primeiros Seres Vivos",
+    question: "Os registros fósseis mais antigos indicam que os primeiros seres vivos na Terra eram provavelmente:",
+    options: [
+      "Organismos complexos, como peixes e insetos",
+      "Vegetais aquáticos capazes de realizar fotossíntese",
+      "Procariontes simples, semelhantes às bactérias atuais",
+      "Fungos que se alimentavam de rochas"
+    ],
+    answer: 2,
+    explanation: "Os fósseis mais antigos (~3,5 bilhões de anos) mostram procariontes simples, sem núcleo definido — semelhantes às bactérias modernas. Organismos complexos surgiram muito depois."
+  }
+];
+
+let current = 0, score = 0, answered = false;
+let userAnswers = [];
+
+function startQuiz() {
+  document.getElementById('screen-start').classList.add('hidden');
+  document.getElementById('screen-quiz').classList.remove('hidden');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  answered = false;
+  const q = questions[current];
+  const total = questions.length;
+
+  document.getElementById('q-counter').textContent = `Questão ${current + 1} de ${total}`;
+  document.getElementById('progress-bar').style.width = `${(current / total) * 100}%`;
+  document.getElementById('q-label').textContent = `📌 ${q.topic}`;
+  document.getElementById('q-text').textContent = q.question;
+
+  const letters = ['A', 'B', 'C', 'D'];
+  const optionsEl = document.getElementById('options');
+  optionsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'option';
+    div.innerHTML = `<span class="letter">${letters[i]}</span><span>${opt}</span>`;
+    div.onclick = () => selectOption(i, div);
+    optionsEl.appendChild(div);
+  });
+
+  document.getElementById('feedback-box').className = 'feedback-box';
+  document.getElementById('feedback-box').innerHTML = '';
+  document.getElementById('btn-next').classList.add('hidden');
+}
+
+function selectOption(index, el) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const allOptions = document.querySelectorAll('.option');
+  allOptions.forEach(o => o.classList.add('disabled'));
+
+  const letters = ['A', 'B', 'C', 'D'];
+  const correct = index === q.answer;
+  if (correct) score++;
+  userAnswers.push({ q, chosen: index, correct });
+
+  if (correct) {
+    el.classList.add('correct');
+  } else {
+    el.classList.add('wrong');
+    allOptions[q.answer].classList.add('correct');
+  }
+
+  const fb = document.getElementById('feedback-box');
+  fb.innerHTML = correct
+    ? `<span class="feedback-icon">✅</span><span><strong>Correto!</strong> ${q.explanation}</span>`
+    : `<span class="feedback-icon">❌</span><span><strong>Incorreto.</strong> A resposta certa é a <strong>${letters[q.answer]}</strong>. ${q.explanation}</span>`;
+  fb.className = `feedback-box show ${correct ? 'ok' : 'err'}`;
+
+  const btn = document.getElementById('btn-next');
+  btn.classList.remove('hidden');
+  btn.textContent = current + 1 < questions.length ? 'Próxima →' : 'Ver Resultado 🏆';
+}
+
+function nextQuestion() {
+  current++;
+  current < questions.length ? renderQuestion() : showResult();
+}
+
+function showResult() {
+  document.getElementById('screen-quiz').classList.add('hidden');
+  document.getElementById('screen-result').classList.remove('hidden');
+  document.getElementById('progress-bar').style.width = '100%';
+
+  const total = questions.length;
+  const pct = score / total;
+  document.getElementById('score-display').textContent = `${score} / ${total}`;
+
+  const msgs = [
+    [1,    "Perfeito! Gabarito completo! 🎉", "⭐⭐⭐⭐⭐"],
+    [0.8,  "Excelente! Você dominou o conteúdo!", "⭐⭐⭐⭐"],
+    [0.6,  "Muito bem! Vale revisar alguns pontos.", "⭐⭐⭐"],
+    [0.4,  "Razoável. Revise o conteúdo!", "⭐⭐"],
+    [-Infinity, "Não desanime! Revise as aulas e tente de novo.", "⭐"]
+  ];
+  const [,msg,stars] = msgs.find(([t]) => pct >= t);
+  document.getElementById('score-msg').textContent = msg;
+  document.getElementById('stars').textContent = stars;
+
+  // Gabarito detalhado
+  const letters = ['A','B','C','D'];
+  const rev = document.getElementById('review-list');
+  rev.innerHTML = userAnswers.map((ua, i) =>
+    `<div class="review-item ${ua.correct ? 'ok-item' : 'err-item'}">
+      <strong>${i+1}. ${ua.q.question}</strong>
+      ${ua.correct
+        ? `✅ Você acertou: <strong>${letters[ua.chosen]}</strong>`
+        : `❌ Você escolheu <strong>${letters[ua.chosen]}</strong> · Correto: <strong>${letters[ua.q.answer]}</strong>`}
+      <br><em>${ua.q.explanation}</em>
+    </div>`
+  ).join('');
+}
+
+function toggleReview() {
+  const rev = document.getElementById('review-list');
+  rev.classList.toggle('hidden');
+  const btn = document.querySelector('.review-btn');
+  btn.textContent = rev.classList.contains('hidden') ? '📋 Ver gabarito detalhado' : '🙈 Ocultar gabarito';
+}
+
+function restartQuiz() {
+  current = 0; score = 0; answered = false; userAnswers = [];
+  document.getElementById('screen-result').classList.add('hidden');
+  document.getElementById('review-list').classList.add('hidden');
+  document.getElementById('screen-quiz').classList.remove('hidden');
+  renderQuestion();
+}
+</script>
+</body>
+</html>
