@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🦑 Quiz de Ciências – 7º Ano</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --dark: #1b2b22;
+    --mid: #2d6a4f;
+    --light: #52b788;
+    --pale: #d8f3dc;
+    --yellow: #f4d03f;
+    --red: #e74c3c;
+    --white: #f9fafb;
+
+    --fs-title:        clamp(1.6rem, 5vw, 3rem);
+    --fs-sub:          clamp(1rem, 3vw, 1.5rem);
+    --fs-topic:        clamp(0.75rem, 2vw, 1rem);
+    --fs-question:     clamp(1.1rem, 3.2vw, 1.85rem);
+    --fs-option:       clamp(1rem, 2.6vw, 1.45rem);
+    --fs-feedback:     clamp(0.9rem, 2.2vw, 1.25rem);
+    --fs-btn:          clamp(1rem, 2.8vw, 1.6rem);
+    --fs-counter:      clamp(0.85rem, 2vw, 1.1rem);
+    --fs-score:        clamp(3rem, 10vw, 5rem);
+    --fs-result-title: clamp(1.4rem, 4vw, 2.4rem);
+    --fs-stars:        clamp(1.8rem, 5vw, 2.5rem);
+
+    --card-pad:    clamp(20px, 4vw, 48px);
+    --gap:         clamp(10px, 2vw, 16px);
+    --letter-size: clamp(34px, 6vw, 44px);
+    --radius: 18px;
+    --shadow: 0 8px 32px rgba(44,106,79,0.13);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, #1b2b22 0%, #2d6a4f 60%, #52b788 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(12px, 3vw, 24px);
+  }
+
+  #app { width: 100%; max-width: min(980px, 100%); }
+
+  #screen-intro {
+    text-align: center;
+    color: var(--white);
+    animation: fadeIn 0.6s ease;
+    padding: clamp(16px, 4vw, 40px);
+  }
+  .squid-icon {
+    font-size: clamp(52px, 10vw, 88px);
+    line-height: 1;
+    margin-bottom: 12px;
+    display: block;
+    animation: float 3s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-10px); }
+  }
+  #screen-intro h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--fs-title);
+    line-height: 1.15;
+    margin-bottom: 8px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+  #screen-intro .sub1 { font-size: var(--fs-sub); opacity: 0.88; margin-bottom: 8px; }
+  #screen-intro .sub2 {
+    font-size: clamp(0.85rem, 2.5vw, 1.2rem);
+    opacity: 0.7;
+    margin-bottom: clamp(24px, 5vw, 36px);
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+  }
+  .theme-pill {
+    background: rgba(255,255,255,0.15);
+    border: 1.5px solid rgba(255,255,255,0.3);
+    border-radius: 100px;
+    padding: 4px 14px;
+    font-size: var(--fs-topic);
+    font-weight: 700;
+  }
+  .prof-name { font-size: clamp(0.85rem, 2.5vw, 1.2rem); opacity: 0.7; margin-bottom: 28px; }
+
+  .btn-start, .btn-restart {
+    background: var(--yellow);
+    color: var(--dark);
+    border: none;
+    border-radius: 50px;
+    padding: clamp(14px, 3vw, 20px) clamp(32px, 7vw, 60px);
+    font-family: 'Nunito', sans-serif;
+    font-size: var(--fs-btn);
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+    transition: transform 0.15s;
+  }
+  .btn-start:hover, .btn-restart:hover { transform: scale(1.06); }
+  .btn-start:active, .btn-restart:active { transform: scale(0.97); }
+
+  .progress-wrap { margin-bottom: clamp(14px, 3vw, 24px); }
+  .progress-label {
+    display: flex; justify-content: space-between;
+    font-size: var(--fs-counter); font-weight: 700;
+    color: rgba(255,255,255,0.8); margin-bottom: 8px;
+  }
+  .progress-bar-bg {
+    background: rgba(255,255,255,0.18);
+    border-radius: 50px; height: clamp(7px, 1.5vw, 10px); overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%; background: var(--yellow);
+    border-radius: 50px; transition: width 0.5s ease;
+  }
+
+  .card {
+    background: #fff; border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: var(--card-pad);
+    animation: fadeIn 0.6s ease;
+  }
+  .q-label {
+    font-size: var(--fs-topic); font-weight: 700; color: var(--mid);
+    text-transform: uppercase; letter-spacing: 1.5px;
+    margin-bottom: clamp(10px, 2vw, 14px);
+  }
+  .q-text {
+    font-size: var(--fs-question); font-weight: 700; color: var(--dark);
+    line-height: 1.4; margin-bottom: clamp(18px, 4vw, 32px);
+  }
+
+  .options { display: grid; grid-template-columns: 1fr; gap: var(--gap); }
+  @media (min-width: 640px) { .options { grid-template-columns: 1fr 1fr; } }
+
+  .option {
+    display: flex; align-items: center;
+    gap: clamp(10px, 2vw, 16px);
+    background: var(--pale); border: 3px solid transparent; border-radius: 14px;
+    padding: clamp(12px, 2.5vw, 20px) clamp(14px, 3vw, 24px);
+    font-family: 'Nunito', sans-serif; font-size: var(--fs-option);
+    font-weight: 700; color: var(--dark); cursor: pointer;
+    transition: all 0.18s; user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    text-align: left; width: 100%;
+  }
+  .option:hover:not(.disabled) { border-color: var(--light); background: #b7e4c7; transform: translateY(-2px); }
+  .option:active:not(.disabled) { transform: scale(0.98); }
+  .option.disabled { cursor: default; }
+  .letter {
+    background: var(--mid); color: #fff; border-radius: 50%;
+    width: var(--letter-size); height: var(--letter-size); min-width: var(--letter-size);
+    display: flex; align-items: center; justify-content: center;
+    font-size: clamp(0.9rem, 2vw, 1.2rem); font-weight: 900; flex-shrink: 0;
+  }
+  .option.correct { background: #b7e4c7; border-color: var(--mid); }
+  .option.correct .letter { background: var(--mid); }
+  .option.wrong { background: #fce4e4; border-color: var(--red); }
+  .option.wrong .letter { background: var(--red); }
+
+  .feedback-box {
+    margin-top: clamp(14px, 3vw, 24px);
+    padding: clamp(12px, 2.5vw, 18px) clamp(14px, 3vw, 24px);
+    border-radius: 12px; font-size: var(--fs-feedback); font-weight: 700;
+    display: none; gap: clamp(8px, 2vw, 12px); line-height: 1.5;
+  }
+  .feedback-box.show { display: flex; align-items: flex-start; }
+  .feedback-box.ok  { background: #d8f3dc; color: #1b4332; }
+  .feedback-box.err { background: #fde8e8; color: #7b2020; }
+  .feedback-icon { font-size: clamp(1.2rem, 3vw, 1.6rem); flex-shrink: 0; }
+
+  .btn-next {
+    display: block; margin: clamp(18px, 4vw, 28px) auto 0;
+    background: var(--mid); color: #fff; border: none; border-radius: 50px;
+    padding: clamp(12px, 2.5vw, 16px) clamp(32px, 7vw, 52px);
+    font-family: 'Nunito', sans-serif; font-size: clamp(1rem, 2.5vw, 1.4rem);
+    font-weight: 900; cursor: pointer; transition: background 0.2s, transform 0.15s;
+    width: 100%; max-width: 320px;
+  }
+  .btn-next:hover { background: #1b4332; transform: scale(1.04); }
+  .btn-next:active { transform: scale(0.97); }
+
+  #screen-result { text-align: center; color: var(--white); animation: fadeIn 0.5s ease; }
+  .result-card {
+    background: #fff; border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: clamp(28px, 6vw, 52px) clamp(20px, 5vw, 48px);
+    margin-bottom: clamp(18px, 4vw, 28px); color: var(--dark);
+  }
+  .result-card h2 { font-family: 'Playfair Display', serif; font-size: var(--fs-result-title); color: var(--mid); margin-bottom: 12px; }
+  .score-number { font-size: var(--fs-score); font-weight: 900; color: var(--mid); line-height: 1; margin: 10px 0; }
+  .score-sub { font-size: clamp(0.95rem, 2.8vw, 1.4rem); color: #555; margin-bottom: 16px; padding: 0 clamp(0px, 4vw, 20px); }
+  .star-row { font-size: var(--fs-stars); margin-bottom: 8px; }
+
+  .review-btn {
+    background: transparent; border: 2px solid var(--mid); color: var(--mid);
+    border-radius: 50px; padding: 10px 28px; font-family: 'Nunito', sans-serif;
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem); font-weight: 700; cursor: pointer;
+    margin-bottom: 16px; transition: all 0.2s; width: 100%;
+  }
+  .review-btn:hover { background: var(--mid); color: #fff; }
+  #review-list { text-align: left; margin-top: 16px; }
+  .review-item {
+    border-left: 4px solid; border-radius: 0 10px 10px 0;
+    padding: clamp(8px, 2vw, 12px) clamp(10px, 2.5vw, 16px);
+    margin-bottom: 10px; font-size: clamp(0.85rem, 2.2vw, 1rem); line-height: 1.5;
+  }
+  .review-item.ok-item  { background: #d8f3dc; border-color: var(--mid); }
+  .review-item.err-item { background: #fde8e8; border-color: var(--red); }
+  .review-item strong { display: block; margin-bottom: 4px; font-size: clamp(0.9rem, 2.3vw, 1.05rem); }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div id="screen-intro">
+    <span class="squid-icon">🦑</span>
+    <h1>Quiz de Ciências</h1>
+    <p class="sub1">7º Ano — Ensino Fundamental</p>
+    <div class="sub2">
+      <span class="theme-pill">🧬 Seres Vivos</span>
+      <span class="theme-pill">🔬 Células</span>
+      <span class="theme-pill">⚗️ Procarionte × Eucarionte</span>
+      <span class="theme-pill">🌿 Célula Animal × Vegetal</span>
+      <span class="theme-pill">🧫 Organelas</span>
+    </div>
+    <p class="prof-name">Prof. Pierre Penteado</p>
+    <button class="btn-start" onclick="startQuiz()">▶ Iniciar Quiz</button>
+  </div>
+
+  <div id="screen-quiz" class="hidden">
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span id="q-counter">Questão 1 de 10</span>
+        <span id="q-score">0 acertos</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-bar" style="width:0%"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="q-label" id="q-label"></div>
+      <div class="q-text"  id="q-text"></div>
+      <div class="options"  id="options"></div>
+      <div class="feedback-box" id="feedback-box"></div>
+      <button class="btn-next hidden" id="btn-next" onclick="nextQuestion()">Próxima →</button>
+    </div>
+  </div>
+
+  <div id="screen-result" class="hidden">
+    <div class="result-card">
+      <h2>Quiz Concluído! 🏆</h2>
+      <div class="star-row"     id="stars"></div>
+      <div class="score-number" id="score-display"></div>
+      <div class="score-sub"    id="score-msg"></div>
+      <button class="review-btn" onclick="toggleReview(this)">📋 Ver gabarito detalhado</button>
+      <div id="review-list" class="hidden"></div>
+    </div>
+    <button class="btn-restart" onclick="restartQuiz()">🔄 Tentar Novamente</button>
+  </div>
+
+</div>
+<script>
+const questions = [
+  {
+    topic: "Características dos Seres Vivos",
+    question: "O que faz uma planta ser diferente de uma pedra?",
+    options: [
+      "A pedra tem peso e a planta não",
+      "A planta cresce, se alimenta e tem filhos. A pedra não faz nada disso",
+      "A pedra é feita de átomos e a planta não",
+      "A planta é mais colorida que a pedra"
+    ],
+    answer: 1,
+    explanation: "Os seres vivos crescem, se alimentam, respiram e têm filhos. Objetos sem vida, como pedras, não fazem nada disso — por isso não são seres vivos."
+  },
+  {
+    topic: "Características dos Seres Vivos",
+    question: "Um cachorro late quando escuta um barulho estranho. O que isso mostra?",
+    options: [
+      "Que ele está com fome",
+      "Que ele reage ao que acontece ao redor — isso é uma característica dos seres vivos",
+      "Que ele está dormindo",
+      "Que ele não é um ser vivo"
+    ],
+    answer: 1,
+    explanation: "Reagir ao ambiente é uma das características dos seres vivos. Quando o cachorro late ao ouvir um barulho, ele está respondendo a um estímulo — isso só acontece em seres vivos."
+  },
+  {
+    topic: "Teoria Celular",
+    question: "A teoria celular tem três ideias principais. Qual das opções abaixo NÃO é uma delas?",
+    options: [
+      "Todo ser vivo é feito de células",
+      "A célula é a parte mais básica da vida",
+      "Toda célula vem de outra célula que já existia",
+      "Células de bactérias são mais complexas do que as nossas"
+    ],
+    answer: 3,
+    explanation: "A teoria celular diz: toda vida é feita de células, a célula é a unidade básica da vida, e toda célula vem de outra célula. A última opção é falsa — as nossas células são bem mais complexas do que as das bactérias."
+  },
+  {
+    topic: "Procarionte × Eucarionte",
+    question: "Qual é a maior diferença entre a célula de uma bactéria e a célula do nosso corpo?",
+    options: [
+      "A célula da bactéria não tem membrana",
+      "A célula da bactéria não tem material genético",
+      "Na célula da bactéria, o DNA fica solto — ela não tem núcleo com membrana",
+      "A célula da bactéria não respira"
+    ],
+    answer: 2,
+    explanation: "Nas bactérias, o DNA fica solto dentro da célula, sem um núcleo protegido. Já nas nossas células, o DNA fica guardado dentro do núcleo. Essa é a principal diferença entre procarionte e eucarionte."
+  },
+  {
+    topic: "Organismos Procariontes",
+    question: "As bactérias são seres vivos muito simples. Qual dessas partes NÃO existe em uma bactéria?",
+    options: [
+      "Ribossomos",
+      "Membrana plasmática",
+      "Mitocôndria",
+      "Parede celular"
+    ],
+    answer: 2,
+    explanation: "Bactérias não têm mitocôndria — essa parte só existe em células mais complexas, como as nossas. A mitocôndria é onde a célula produz energia. As bactérias produzem energia de outro jeito."
+  },
+  {
+    topic: "Célula Animal × Vegetal",
+    question: "Uma aluna olhou duas células no microscópio. A célula X tinha cloroplasto. A célula Y não tinha. O que isso quer dizer?",
+    options: [
+      "A célula X é animal e a Y é vegetal",
+      "As duas são de bactérias",
+      "A célula X é vegetal e a Y é animal",
+      "As duas são iguais"
+    ],
+    answer: 2,
+    explanation: "O cloroplasto só existe nas células de plantas e algas. Se a célula X tem cloroplasto, ela é vegetal. A célula Y, sem cloroplasto, é animal. Simples assim!"
+  },
+  {
+    topic: "Organelas Celulares",
+    question: "Nas plantas, tem uma 'bolsa' grande dentro da célula que guarda água e ajuda a planta a ficar em pé. Como ela se chama?",
+    options: [
+      "Mitocôndria",
+      "Ribossomo",
+      "Vacúolo",
+      "Membrana plasmática"
+    ],
+    answer: 2,
+    explanation: "O vacúolo é como uma bolsa cheia de água dentro da célula vegetal. Ele pode tomar quase todo o espaço da célula! Ajuda a planta a se manter firme e também guarda nutrientes."
+  },
+  {
+    topic: "Organelas Celulares",
+    question: "A mitocôndria é chamada de 'usina de energia da célula'. O que ela faz?",
+    options: [
+      "Faz fotossíntese, transformando luz em alimento",
+      "Pega o alimento que a célula tem e transforma em energia para a célula usar",
+      "Fabrica proteínas para o corpo",
+      "Digere coisas velhas dentro da célula"
+    ],
+    answer: 1,
+    explanation: "A mitocôndria pega a glicose (um tipo de açúcar) que vem do alimento e transforma em energia. É como uma usina elétrica dentro da célula! Sem ela, a célula não teria energia para funcionar."
+  },
+  {
+    topic: "Cloroplasto e Fotossíntese",
+    question: "As plantas conseguem fazer o próprio alimento usando a luz do sol. Qual parte da célula vegetal faz isso acontecer?",
+    options: [
+      "Mitocôndria",
+      "Vacúolo",
+      "Cloroplasto",
+      "Ribossomo"
+    ],
+    answer: 2,
+    explanation: "O cloroplasto é a parte da célula vegetal que faz fotossíntese. Ele capta a luz do sol e usa essa energia para transformar água e gás carbônico em alimento (glicose). É por isso que as plantas não precisam comer como os animais!"
+  },
+  {
+    topic: "Classificação dos Seres Vivos",
+    question: "Um cientista achou um ser vivo pequenininho numa gota de água de lago. Ele tem núcleo, mas não tem parede celular nem cloroplasto. O que ele provavelmente é?",
+    options: [
+      "Uma bactéria",
+      "Um fungo",
+      "Um protozoário, como a ameba",
+      "Uma planta"
+    ],
+    answer: 2,
+    explanation: "Bactérias não têm núcleo. Fungos e plantas têm parede celular. Plantas também têm cloroplasto. O ser descrito — com núcleo, sem parede e sem cloroplasto — é um protozoário, como a ameba ou o paramécio."
+  }
+];
+
+let current = 0, score = 0, answered = false;
+let userAnswers = [];
+const letters = ['A','B','C','D'];
+
+function startQuiz() {
+  document.getElementById('screen-intro').classList.add('hidden');
+  document.getElementById('screen-quiz').classList.remove('hidden');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  answered = false;
+  const q = questions[current];
+  const total = questions.length;
+  document.getElementById('q-counter').textContent = `Questão ${current + 1} de ${total}`;
+  document.getElementById('q-score').textContent = `${score} acerto${score !== 1 ? 's' : ''}`;
+  document.getElementById('progress-bar').style.width = `${(current / total) * 100}%`;
+  document.getElementById('q-label').textContent = `📌 ${q.topic}`;
+  document.getElementById('q-text').textContent = q.question;
+
+  const optionsEl = document.getElementById('options');
+  optionsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="letter">${letters[i]}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i, btn);
+    optionsEl.appendChild(btn);
+  });
+
+  const fb = document.getElementById('feedback-box');
+  fb.className = 'feedback-box';
+  fb.innerHTML = '';
+  document.getElementById('btn-next').classList.add('hidden');
+}
+
+function selectOption(index, el) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const allOptions = document.querySelectorAll('.option');
+  allOptions.forEach(o => { o.classList.add('disabled'); o.onclick = null; });
+
+  const correct = index === q.answer;
+  if (correct) score++;
+  userAnswers.push({ q, chosen: index, correct });
+
+  if (correct) { el.classList.add('correct'); }
+  else { el.classList.add('wrong'); allOptions[q.answer].classList.add('correct'); }
+
+  document.getElementById('q-score').textContent = `${score} acerto${score !== 1 ? 's' : ''}`;
+
+  const fb = document.getElementById('feedback-box');
+  fb.innerHTML = correct
+    ? `<span class="feedback-icon">✅</span><span><strong>Correto!</strong> ${q.explanation}</span>`
+    : `<span class="feedback-icon">❌</span><span><strong>Incorreto.</strong> A resposta certa é a <strong>${letters[q.answer]}</strong>. ${q.explanation}</span>`;
+  fb.className = `feedback-box show ${correct ? 'ok' : 'err'}`;
+
+  const btn = document.getElementById('btn-next');
+  btn.classList.remove('hidden');
+  btn.textContent = current + 1 < questions.length ? 'Próxima →' : 'Ver Resultado 🏆';
+}
+
+function nextQuestion() {
+  current++;
+  current < questions.length ? renderQuestion() : showResult();
+}
+
+function showResult() {
+  document.getElementById('screen-quiz').classList.add('hidden');
+  document.getElementById('screen-result').classList.remove('hidden');
+  document.getElementById('progress-bar').style.width = '100%';
+
+  const pct = score / questions.length;
+  document.getElementById('score-display').textContent = `${score} / ${questions.length}`;
+
+  const msgs = [
+    [1.0,       "Perfeito! Gabarito completo! 🎉",                 "⭐⭐⭐⭐⭐"],
+    [0.8,       "Excelente! Você dominou o conteúdo!",             "⭐⭐⭐⭐"],
+    [0.6,       "Muito bem! Vale revisar alguns pontos.",          "⭐⭐⭐"],
+    [0.4,       "Razoável. Revise o conteúdo!",                   "⭐⭐"],
+    [-Infinity, "Não desanime! Revise as aulas e tente de novo.", "⭐"]
+  ];
+  const [, msg, stars] = msgs.find(([t]) => pct >= t);
+  document.getElementById('score-msg').textContent = msg;
+  document.getElementById('stars').textContent = stars;
+
+  const rev = document.getElementById('review-list');
+  rev.innerHTML = userAnswers.map((ua, i) =>
+    `<div class="review-item ${ua.correct ? 'ok-item' : 'err-item'}">
+      <strong>${i+1}. ${ua.q.question}</strong>
+      ${ua.correct
+        ? `✅ Você acertou: <strong>${letters[ua.chosen]}</strong>`
+        : `❌ Você escolheu <strong>${letters[ua.chosen]}</strong> · Correto: <strong>${letters[ua.q.answer]}</strong>`}
+      <br><em>${ua.q.explanation}</em>
+    </div>`
+  ).join('');
+}
+
+function toggleReview(btn) {
+  const rev = document.getElementById('review-list');
+  rev.classList.toggle('hidden');
+  btn.textContent = rev.classList.contains('hidden') ? '📋 Ver gabarito detalhado' : '🙈 Ocultar gabarito';
+}
+
+function restartQuiz() {
+  current = 0; score = 0; answered = false; userAnswers = [];
+  document.getElementById('screen-result').classList.add('hidden');
+  document.getElementById('screen-quiz').classList.add('hidden');
+  document.getElementById('review-list').classList.add('hidden');
+  document.getElementById('screen-intro').classList.remove('hidden');
+}
+</script>
+</body>
+</html>
