@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz de Biologia — 1º Ano</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --fs-title:        clamp(1.6rem, 5vw, 3rem);
+    --fs-sub:          clamp(1rem, 3vw, 1.5rem);
+    --fs-topic:        clamp(0.75rem, 2vw, 1rem);
+    --fs-question:     clamp(1.1rem, 3.2vw, 1.85rem);
+    --fs-option:       clamp(1rem, 2.6vw, 1.45rem);
+    --fs-feedback:     clamp(0.9rem, 2.2vw, 1.25rem);
+    --fs-btn:          clamp(1rem, 2.8vw, 1.6rem);
+    --fs-counter:      clamp(0.85rem, 2vw, 1.1rem);
+    --fs-score:        clamp(3rem, 10vw, 5rem);
+    --fs-result-title: clamp(1.4rem, 4vw, 2.4rem);
+    --fs-stars:        clamp(1.8rem, 5vw, 2.5rem);
+    --card-pad:        clamp(20px, 4vw, 48px);
+    --gap:             clamp(10px, 2vw, 16px);
+    --letter-size:     clamp(34px, 6vw, 44px);
+  }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1b2b22 0%, #2d6a4f 60%, #52b788 100%);
+    background-attachment: fixed;
+    color: #1b2b22;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 12px 48px;
+  }
+
+  .container {
+    width: min(980px, 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--gap);
+  }
+
+  /* ── TELA INICIAL ── */
+  #intro-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: clamp(12px, 3vw, 22px);
+    padding-top: clamp(16px, 4vw, 40px);
+  }
+
+  .emoji-float {
+    font-size: clamp(3.5rem, 12vw, 6rem);
+    animation: float 3s ease-in-out infinite;
+    display: block;
+    line-height: 1;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-16px); }
+  }
+
+  .intro-title {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--fs-title);
+    color: #fff;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.3);
+    line-height: 1.15;
+  }
+
+  .intro-sub {
+    font-size: var(--fs-sub);
+    color: rgba(255,255,255,0.88);
+    font-weight: 700;
+  }
+
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  .pill {
+    background: rgba(255,255,255,0.18);
+    border: 1.5px solid rgba(255,255,255,0.35);
+    color: #fff;
+    border-radius: 50px;
+    padding: 6px 18px;
+    font-size: var(--fs-topic);
+    font-weight: 700;
+    backdrop-filter: blur(4px);
+    letter-spacing: 0.02em;
+  }
+
+  .prof-name {
+    font-size: clamp(0.8rem, 2vw, 1rem);
+    color: rgba(255,255,255,0.55);
+    margin-top: 4px;
+  }
+
+  .btn-start {
+    background: #f4d03f;
+    color: #1b2b22;
+    border: none;
+    border-radius: 50px;
+    padding: clamp(14px,3vw,20px) clamp(32px,7vw,64px);
+    font-size: var(--fs-btn);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    cursor: pointer;
+    margin-top: 8px;
+    box-shadow: 0 4px 24px rgba(244,208,63,0.35);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn-start:hover { transform: scale(1.04); box-shadow: 0 8px 32px rgba(244,208,63,0.5); }
+
+  /* ── PROGRESS BAR ── */
+  #progress-area {
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .progress-labels {
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+    font-size: var(--fs-counter);
+    font-weight: 700;
+  }
+
+  .progress-track {
+    background: rgba(255,255,255,0.2);
+    border-radius: 50px;
+    height: clamp(10px, 2vw, 14px);
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .progress-bar {
+    background: #f4d03f;
+    height: 100%;
+    border-radius: 50px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(44,106,79,0.13);
+    padding: var(--card-pad);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+  }
+
+  .topic-label {
+    font-size: var(--fs-topic);
+    font-weight: 900;
+    color: #2d6a4f;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .question-text {
+    font-size: var(--fs-question);
+    font-weight: 700;
+    color: #1b2b22;
+    line-height: 1.4;
+  }
+
+  /* ── OPTIONS ── */
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--gap);
+  }
+  @media (min-width: 640px) {
+    .options-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  .option-btn {
+    background: #d8f3dc;
+    border: 2px solid transparent;
+    border-radius: 14px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: var(--fs-option);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    color: #1b2b22;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.18s, border-color 0.18s, transform 0.12s;
+    line-height: 1.3;
+  }
+  .option-btn:hover:not(:disabled) { background: #b7e4c7; transform: translateY(-2px); }
+
+  .option-letter {
+    min-width: var(--letter-size);
+    height: var(--letter-size);
+    background: #2d6a4f;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+    font-weight: 900;
+    flex-shrink: 0;
+    transition: background 0.18s;
+  }
+
+  .option-btn.correct { background: #b7e4c7; border-color: #40916c; }
+  .option-btn.wrong   { background: #fce4e4; border-color: #e07070; }
+  .option-btn.wrong .option-letter { background: #c0392b; }
+  .option-btn:disabled { cursor: default; }
+
+  /* ── FEEDBACK ── */
+  .feedback-box {
+    border-radius: 12px;
+    padding: clamp(12px,3vw,20px);
+    font-size: var(--fs-feedback);
+    font-weight: 700;
+    line-height: 1.5;
+    display: none;
+  }
+  .feedback-box.correct { background: #d8f3dc; color: #1b4332; border-left: 5px solid #40916c; }
+  .feedback-box.wrong   { background: #fce4e4; color: #7b1f1f; border-left: 5px solid #c0392b; }
+
+  /* ── BTN NEXT ── */
+  .btn-next {
+    background: #2d6a4f;
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: clamp(12px,2.5vw,18px) clamp(28px,6vw,56px);
+    font-size: var(--fs-btn);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    cursor: pointer;
+    align-self: flex-end;
+    display: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 16px rgba(45,106,79,0.25);
+  }
+  .btn-next:hover { transform: scale(1.04); box-shadow: 0 8px 24px rgba(45,106,79,0.35); }
+
+  /* ── RESULT ── */
+  #result-screen { display: none; flex-direction: column; gap: clamp(16px,3vw,28px); align-items: center; }
+
+  .result-card {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(44,106,79,0.13);
+    padding: var(--card-pad);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(12px,3vw,22px);
+    text-align: center;
+  }
+
+  .result-title {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--fs-result-title);
+    color: #1b2b22;
+  }
+
+  .score-display {
+    font-size: var(--fs-score);
+    font-weight: 900;
+    color: #2d6a4f;
+    line-height: 1;
+  }
+
+  .stars { font-size: var(--fs-stars); letter-spacing: 4px; }
+
+  .result-msg {
+    font-size: var(--fs-sub);
+    font-weight: 700;
+    color: #1b2b22;
+    line-height: 1.4;
+  }
+
+  .btn-retry {
+    background: #f4d03f;
+    color: #1b2b22;
+    border: none;
+    border-radius: 50px;
+    padding: clamp(12px,2.5vw,18px) clamp(28px,6vw,56px);
+    font-size: var(--fs-btn);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 24px rgba(244,208,63,0.35);
+  }
+  .btn-retry:hover { transform: scale(1.04); box-shadow: 0 8px 32px rgba(244,208,63,0.5); }
+
+  /* ── GABARITO ── */
+  .gabarito-toggle {
+    background: none;
+    border: 2px solid #2d6a4f;
+    border-radius: 50px;
+    color: #2d6a4f;
+    padding: 10px 28px;
+    font-size: var(--fs-counter);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s;
+  }
+  .gabarito-toggle:hover { background: #2d6a4f; color: #fff; }
+
+  .gabarito-list {
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+    margin-top: 4px;
+  }
+  .gabarito-list.open { display: flex; }
+
+  .gabarito-item {
+    background: #f4f9f6;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: var(--fs-feedback);
+    line-height: 1.5;
+    border-left: 5px solid #40916c;
+  }
+  .gabarito-item.wrong-ans { border-left-color: #c0392b; }
+  .gabarito-item strong { color: #1b4332; }
+  .gabarito-item .g-label { font-size: clamp(0.7rem, 1.8vw, 0.88rem); font-weight: 900; color: #2d6a4f; text-transform: uppercase; letter-spacing: 0.06em; }
+  .gabarito-item.wrong-ans .g-label { color: #c0392b; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ═══ TELA INICIAL ═══ -->
+  <div id="intro-screen">
+    <span class="emoji-float">🧬</span>
+    <h1 class="intro-title">Quiz de Biologia</h1>
+    <p class="intro-sub">1º Ano — Ensino Médio</p>
+    <div class="pills">
+      <span class="pill">Introdução à Biologia</span>
+      <span class="pill">Organização da Vida</span>
+      <span class="pill">Níveis de Organização</span>
+    </div>
+    <p class="prof-name">Prof. Pierre Penteado</p>
+    <button class="btn-start" onclick="startQuiz()">▶ Iniciar Quiz</button>
+  </div>
+
+  <!-- ═══ BARRA DE PROGRESSO ═══ -->
+  <div id="progress-area">
+    <div class="progress-labels">
+      <span id="counter-label">Questão 1 de 10</span>
+      <span id="score-label">0 acertos</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+  </div>
+
+  <!-- ═══ CARD DA QUESTÃO ═══ -->
+  <div class="card" id="question-card" style="display:none;">
+    <div class="topic-label" id="q-topic"></div>
+    <div class="question-text" id="q-text"></div>
+    <div class="options-grid" id="q-options"></div>
+    <div class="feedback-box" id="q-feedback"></div>
+    <button class="btn-next" id="btn-next" onclick="nextQuestion()">Próxima ➜</button>
+  </div>
+
+  <!-- ═══ TELA DE RESULTADO ═══ -->
+  <div id="result-screen">
+    <div class="result-card">
+      <p class="result-title">Resultado Final 🎉</p>
+      <div class="score-display" id="final-score"></div>
+      <div class="stars" id="final-stars"></div>
+      <p class="result-msg" id="final-msg"></p>
+      <button class="gabarito-toggle" onclick="toggleGabarito()">📋 Ver Gabarito</button>
+      <div class="gabarito-list" id="gabarito-list"></div>
+      <button class="btn-retry" onclick="restartQuiz()">🔄 Tentar Novamente</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: "📌 Níveis de Organização",
+    question: "Qual é a ordem correta dos níveis de organização da vida, do menor para o maior?",
+    options: [
+      "Célula → Tecido → Órgão → Sistema → Organismo",
+      "Tecido → Célula → Sistema → Órgão → Organismo",
+      "Órgão → Sistema → Célula → Tecido → Organismo",
+      "Sistema → Órgão → Célula → Organismo → Tecido"
+    ],
+    correct: 0,
+    feedback: "✅ Isso mesmo! A ordem é: Átomo → Molécula → Organela → Célula → Tecido → Órgão → Sistema → Organismo → População → Comunidade → Ecossistema → Biosfera. Do menor para o maior!"
+  },
+  {
+    topic: "📌 Níveis de Organização",
+    question: "Qual é o nível de organização que vem LOGO DEPOIS da célula?",
+    options: [
+      "Órgão",
+      "Molécula",
+      "Tecido",
+      "Organismo"
+    ],
+    correct: 2,
+    feedback: "✅ Correto! Células se juntam para formar tecidos (como o tecido muscular). Os tecidos se juntam para formar órgãos (como o coração)."
+  },
+  {
+    topic: "📌 Do Invisível ao Visível",
+    question: "Olhando pelo microscópio, você encontra uma estrutura dentro da célula que tem sua própria membrana e é responsável por produzir energia. O que é essa estrutura?",
+    options: [
+      "Um tecido",
+      "Uma organela",
+      "Um sistema",
+      "Um órgão"
+    ],
+    correct: 1,
+    feedback: "✅ Exato! As organelas são estruturas que ficam DENTRO da célula. A mitocôndria, por exemplo, é uma organela que produz energia para a célula funcionar."
+  },
+  {
+    topic: "📌 Do Organismo ao Planeta",
+    question: "Uma floresta tem árvores, cobras, insetos, fungos, rios e o solo. Isso tudo junto — seres vivos mais o ambiente — é chamado de:",
+    options: [
+      "População",
+      "Comunidade",
+      "Ecossistema",
+      "Biosfera"
+    ],
+    correct: 2,
+    feedback: "✅ Perfeito! O ecossistema é o conjunto de seres vivos (comunidade) mais o ambiente físico (solo, água, clima). A biosfera é maior ainda: é toda a vida da Terra inteira!"
+  },
+  {
+    topic: "📌 O Que É Estar Vivo?",
+    question: "Qual dessas características é exclusiva dos seres vivos?",
+    options: [
+      "Ser feito de água",
+      "Ocupar espaço",
+      "Ter peso",
+      "Ser capaz de se reproduzir"
+    ],
+    correct: 3,
+    feedback: "✅ Isso! A reprodução é uma das características que definem os seres vivos. Pedras ocupam espaço e têm peso, mas não se reproduzem, não reagem a estímulos e não fazem metabolismo."
+  },
+  {
+    topic: "📌 CHONPS — Elementos da Vida",
+    question: "Quase todo ser vivo é feito principalmente de 6 elementos químicos. Qual letra NÃO faz parte dessa lista chamada CHONPS?",
+    options: [
+      "C (Carbono)",
+      "H (Hidrogênio)",
+      "Fe (Ferro)",
+      "N (Nitrogênio)"
+    ],
+    correct: 2,
+    feedback: "✅ Correto! CHONPS significa: Carbono, Hidrogênio, Oxigênio, Nitrogênio, Fósforo e Enxofre (do inglês Sulfur). O ferro existe no corpo, mas não faz parte do grupo principal CHONPS."
+  },
+  {
+    topic: "📌 Célula: Procarionte e Eucarionte",
+    question: "Uma bactéria é diferente das nossas células porque ela:",
+    options: [
+      "Não tem DNA",
+      "Não tem membrana ao redor da célula",
+      "Não tem núcleo organizado com membrana",
+      "É sempre maior do que células humanas"
+    ],
+    correct: 2,
+    feedback: "✅ Exatamente! Bactérias são procariontes — não têm núcleo com membrana. Seu DNA fica solto no citoplasma. As células humanas são eucariontes e têm o DNA guardado dentro de um núcleo com membrana."
+  },
+  {
+    topic: "📌 Unicelular e Multicelular",
+    question: "Uma ameba consegue fazer tudo sozinha: se alimentar, se reproduzir e reagir ao ambiente. Isso porque ela é:",
+    options: [
+      "Multicelular — tem muitas células especializadas",
+      "Unicelular — é um ser vivo formado por uma só célula",
+      "Acelular — não tem células",
+      "Procarionte — não tem membrana"
+    ],
+    correct: 1,
+    feedback: "✅ Isso! Seres unicelulares, como a ameba e as bactérias, têm apenas uma célula que faz tudo. Já nós, humanos, somos multicelulares — temos trilhões de células com funções diferentes."
+  },
+  {
+    topic: "📌 Metabolismo",
+    question: "Quando você come e seu corpo transforma o alimento em energia, isso é um exemplo de:",
+    options: [
+      "Anabolismo — construção de moléculas maiores",
+      "Reprodução — multiplicação de células",
+      "Catabolismo — quebra de moléculas para liberar energia",
+      "Evolução — mudança ao longo do tempo"
+    ],
+    correct: 2,
+    feedback: "✅ Certo! O catabolismo é a quebra de moléculas (como o açúcar) para liberar energia. Já o anabolismo é o contrário: construir moléculas maiores usando energia — como quando seu corpo fabrica proteínas musculares."
+  },
+  {
+    topic: "📌 Reação, Reprodução e Evolução",
+    question: "Um girassol que gira em direção à luz do sol e uma tartaruga que se esconde na concha quando vê perigo estão demonstrando qual característica dos seres vivos?",
+    options: [
+      "Metabolismo",
+      "Reprodução",
+      "Reação a estímulos",
+      "Evolução"
+    ],
+    correct: 2,
+    feedback: "✅ Perfeito! Reagir a estímulos do ambiente é uma característica de todos os seres vivos. A luz é o estímulo para o girassol, e o perigo é o estímulo para a tartaruga. Seres não-vivos, como pedras, não reagem assim."
+  }
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+let userAnswers = [];
+
+function startQuiz() {
+  current = 0;
+  score = 0;
+  answered = false;
+  userAnswers = [];
+  document.getElementById('intro-screen').style.display = 'none';
+  document.getElementById('progress-area').style.display = 'flex';
+  document.getElementById('question-card').style.display = 'flex';
+  loadQuestion();
+}
+
+function loadQuestion() {
+  answered = false;
+  const q = questions[current];
+  document.getElementById('q-topic').textContent = q.topic;
+  document.getElementById('q-text').textContent = q.question;
+
+  const letters = ['A', 'B', 'C', 'D'];
+  const optionsDiv = document.getElementById('q-options');
+  optionsDiv.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="option-letter">${letters[i]}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i, btn);
+    optionsDiv.appendChild(btn);
+  });
+
+  const fb = document.getElementById('q-feedback');
+  fb.style.display = 'none';
+  fb.className = 'feedback-box';
+  fb.textContent = '';
+
+  document.getElementById('btn-next').style.display = 'none';
+
+  // Progress
+  const pct = (current / 10) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('counter-label').textContent = `Questão ${current + 1} de 10`;
+  document.getElementById('score-label').textContent = `${score} acerto${score !== 1 ? 's' : ''}`;
+}
+
+function selectOption(index, btnClicked) {
+  if (answered) return;
+  answered = true;
+
+  const q = questions[current];
+  const allBtns = document.querySelectorAll('.option-btn');
+  allBtns.forEach(b => b.disabled = true);
+
+  const isCorrect = index === q.correct;
+  if (isCorrect) {
+    score++;
+    btnClicked.classList.add('correct');
+  } else {
+    btnClicked.classList.add('wrong');
+    allBtns[q.correct].classList.add('correct');
+  }
+
+  userAnswers.push({ questionIndex: current, chosen: index, correct: isCorrect });
+
+  const fb = document.getElementById('q-feedback');
+  if (isCorrect) {
+    fb.className = 'feedback-box correct';
+    fb.textContent = q.feedback;
+  } else {
+    fb.className = 'feedback-box wrong';
+    fb.textContent = '❌ Não foi dessa vez! ' + q.feedback.replace('✅ ', '').replace('✅', '');
+  }
+  fb.style.display = 'block';
+
+  document.getElementById('score-label').textContent = `${score} acerto${score !== 1 ? 's' : ''}`;
+
+  const btnNext = document.getElementById('btn-next');
+  btnNext.textContent = current < 9 ? 'Próxima ➜' : '🏁 Ver Resultado';
+  btnNext.style.display = 'block';
+}
+
+function nextQuestion() {
+  current++;
+  if (current < 10) {
+    loadQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function showResult() {
+  document.getElementById('progress-area').style.display = 'none';
+  document.getElementById('question-card').style.display = 'none';
+
+  document.getElementById('progress-bar').style.width = '100%';
+
+  const resultScreen = document.getElementById('result-screen');
+  resultScreen.style.display = 'flex';
+
+  document.getElementById('final-score').textContent = `${score} / 10`;
+
+  let stars = '';
+  if (score <= 3) stars = '⭐';
+  else if (score <= 5) stars = '⭐⭐';
+  else if (score <= 7) stars = '⭐⭐⭐';
+  else if (score <= 9) stars = '⭐⭐⭐⭐';
+  else stars = '⭐⭐⭐⭐⭐';
+  document.getElementById('final-stars').textContent = stars;
+
+  let msg = '';
+  if (score <= 3) msg = 'Calma! Errar faz parte do aprender. Reveja o conteúdo e tente de novo! 💪';
+  else if (score <= 5) msg = 'Você está no caminho certo! Ainda dá pra melhorar. 😊';
+  else if (score <= 7) msg = 'Bom trabalho! Você entendeu bastante coisa! 👏';
+  else if (score <= 9) msg = 'Muito bem! Você arrasou! 🎯';
+  else msg = 'PERFEITO! 10/10! Você dominou o conteúdo! 🏆🧬';
+  document.getElementById('final-msg').textContent = msg;
+
+  buildGabarito();
+}
+
+function buildGabarito() {
+  const list = document.getElementById('gabarito-list');
+  list.innerHTML = '';
+  const letters = ['A', 'B', 'C', 'D'];
+  questions.forEach((q, i) => {
+    const ua = userAnswers.find(a => a.questionIndex === i);
+    const item = document.createElement('div');
+    const wasCorrect = ua && ua.correct;
+    item.className = 'gabarito-item' + (wasCorrect ? '' : ' wrong-ans');
+    const chosenText = ua ? `${letters[ua.chosen]}) ${q.options[ua.chosen]}` : 'Não respondida';
+    item.innerHTML = `
+      <div class="g-label">${wasCorrect ? '✅ Acertou' : '❌ Errou'} — Q${i+1}</div>
+      <strong>${q.topic.replace('📌 ', '')}</strong><br>
+      ${q.question}<br>
+      <span style="font-size:0.9em; color:#444;">Sua resposta: ${chosenText}</span><br>
+      <span style="font-size:0.9em; color:#1b4332;">✔ Correta: ${letters[q.correct]}) ${q.options[q.correct]}</span>
+    `;
+    list.appendChild(item);
+  });
+}
+
+function toggleGabarito() {
+  const list = document.getElementById('gabarito-list');
+  list.classList.toggle('open');
+  const btn = document.querySelector('.gabarito-toggle');
+  btn.textContent = list.classList.contains('open') ? '🔼 Fechar Gabarito' : '📋 Ver Gabarito';
+}
+
+function restartQuiz() {
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('gabarito-list').classList.remove('open');
+  document.getElementById('intro-screen').style.display = 'flex';
+}
+</script>
+</body>
+</html>
