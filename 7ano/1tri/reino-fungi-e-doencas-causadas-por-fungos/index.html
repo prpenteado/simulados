@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang='pt-BR'>
+<head>
+  <meta charset='UTF-8'/>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
+  <title>Reino Fungi e doenças causadas por fungos</title>
+  <link rel='preconnect' href='https://fonts.googleapis.com'>
+  <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+  <link href='https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Open+Sans:wght@400&family=Playfair+Display:wght@700&display=swap' rel='stylesheet'>
+  <style>
+    :root{--fs-title:clamp(1.6rem,5vw,3rem);--fs-sub:clamp(1rem,3vw,1.5rem);--fs-topic:clamp(.85rem,2.2vw,1.15rem);--fs-question:clamp(1.25rem,3.8vw,2.25rem);--fs-option:clamp(1.08rem,3vw,1.75rem);--fs-feedback:clamp(.9rem,2.2vw,1.25rem);--fs-btn:clamp(1rem,2.8vw,1.6rem);--fs-counter:clamp(.95rem,2.2vw,1.25rem);--fs-score:clamp(3rem,10vw,5rem);--fs-result-title:clamp(1.4rem,4vw,2.4rem);--fs-stars:clamp(1.8rem,5vw,2.5rem);--card-pad:clamp(20px,4vw,48px);--gap:clamp(10px,2vw,16px);--letter-size:clamp(38px,6vw,52px)}
+    *{box-sizing:border-box} body{margin:0;min-height:100vh;font-family:'Nunito',sans-serif;color:#1b2b22;background:linear-gradient(135deg,#1b2b22 0%,#2d6a4f 60%,#52b788 100%);padding:14px;display:flex;align-items:center;justify-content:center}
+    button{font-family:inherit;cursor:pointer;border:0}.app{width:min(1380px,98vw);margin:auto}.screen{display:none}.screen.active{display:block}
+    .start,.result{text-align:center;color:#fff;padding:18px 0}.emoji{font-size:clamp(4rem,8vw,5.4rem);line-height:1;margin-bottom:12px;animation:float 2.8s ease-in-out infinite}.emoji.small{font-size:3.5rem}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    h1{margin:0;font-family:'Playfair Display',serif;font-size:var(--fs-title);line-height:1.08}.subtitle{margin:8px 0 0;font-size:var(--fs-sub);font-weight:700}
+    .pills{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin:20px auto}.pill{padding:8px 14px;border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.14);border-radius:999px;font-size:var(--fs-topic);font-weight:900;text-transform:uppercase;color:#fff}
+    .teacher{margin:0 0 24px;font-size:1rem;opacity:.8;font-weight:700;color:#fff}.primary,.next{padding:14px 28px;border-radius:50px;font-size:var(--fs-btn);font-weight:900;box-shadow:0 10px 22px rgba(0,0,0,.18)}.primary{background:#f4d03f;color:#1b2b22}.next{background:#2d6a4f;color:#fff}
+    .skip{background:transparent;color:#999;border:2px solid #999;border-radius:50px;padding:10px 18px;font-size:calc(var(--fs-btn)*.9);font-weight:900}.progress{margin:0 0 16px;color:#fff}.pinfo{display:flex;justify-content:space-between;gap:12px;font-size:var(--fs-counter);font-weight:900;margin-bottom:8px}.track{height:14px;border-radius:999px;background:rgba(255,255,255,.26);overflow:hidden}.bar{height:100%;width:0;background:#f4d03f;border-radius:999px;transition:.28s}
+    .card{background:#fff;border-radius:18px;box-shadow:0 8px 32px rgba(44,106,79,.13);padding:clamp(22px,3.2vw,42px)}.topic{color:#2d6a4f;font-size:var(--fs-topic);font-weight:900;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}.qimg{margin:0 0 18px;border:2px solid #d8f3dc;border-radius:16px;background:#fff;overflow:hidden;display:none}.qimg.show{display:block}.qimg img{display:block;width:100%;height:auto;max-height:280px;object-fit:contain;background:#fff}.question{margin:0 0 22px;font-size:var(--fs-question);line-height:1.25;font-weight:900;color:#1b2b22}
+    .opts{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)} .opt{display:flex;align-items:center;gap:14px;width:100%;min-height:86px;padding:16px 18px;border-radius:16px;background:#d8f3dc;color:#1b2b22;text-align:left;border:3px solid transparent;font-family:'Open Sans',Arial,sans-serif;font-size:var(--fs-option);font-weight:400;line-height:1.25}.opt:disabled{cursor:default}.letter{flex:0 0 var(--letter-size);width:var(--letter-size);height:var(--letter-size);display:inline-flex;align-items:center;justify-content:center;border-radius:50%;background:#2d6a4f;color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem}.opt.correct{background:#b7e4c7;border-color:#2d6a4f}.opt.wrong{background:#fce4e4;border-color:#d9534f}.opt.wrong .letter{background:#d9534f}
+    .feedback{display:none;margin-top:18px;padding:16px 18px;border-radius:16px;font-size:var(--fs-feedback);line-height:1.45;font-weight:800}.feedback.show{display:block}.feedback.good{background:#e4f8e9;color:#1f6f46;border:2px solid #b7e4c7}.feedback.bad{background:#fff0f0;color:#9d2a28;border:2px solid #f3b3b3}
+    .actions{display:flex;justify-content:flex-end;gap:12px;margin-top:22px;min-height:54px}.hidden{display:none!important}.score{font-size:var(--fs-score);font-weight:900;line-height:1;margin:10px 0;color:#f4d03f}.stars{font-size:var(--fs-stars);margin:12px 0}.rtitle{font-family:'Playfair Display',serif;font-size:var(--fs-result-title);margin:0 0 8px}.rmsg{margin:0 auto 22px;max-width:760px;font-size:var(--fs-sub);font-weight:700;line-height:1.35;color:#fff}.review{margin:20px auto 28px;text-align:left;color:#1b2b22;background:#fff;border-radius:18px;box-shadow:0 8px 32px rgba(44,106,79,.13);overflow:hidden;max-width:980px}details{border-bottom:1px solid #e5f4e8}details:last-child{border-bottom:0}summary{padding:16px 20px;font-weight:900;cursor:pointer;color:#2d6a4f;font-size:1rem;list-style-position:inside}.revbody{padding:0 20px 18px;font-size:.98rem;line-height:1.45}.tag{display:inline-flex;border-radius:999px;padding:4px 10px;font-size:.82rem;font-weight:900;margin-bottom:12px}.tag.ok{background:#e4f8e9;color:#1f6f46}.tag.no{background:#fff0f0;color:#9d2a28}.tag.skip{background:#eef1f2;color:#586066}.ans,.exp{margin-top:8px}.muted{opacity:.78}
+    @media (max-width:640px){.opts{grid-template-columns:1fr}}
+  
+/* TV_PATCH_MAIOR */
+@media (min-width:900px){
+  body{padding:14px}
+  .app{width:min(1380px,98vw)}
+  .qimg img{max-height:min(440px,38vh)}
+  .card{padding:clamp(22px,3.2vw,42px)}
+  .question{font-size:clamp(1.25rem,3.8vw,2.25rem)}
+  .opt{font-size:clamp(1.08rem,3vw,1.75rem);min-height:86px;padding:16px 18px}
+  .topic{font-size:clamp(.85rem,2.2vw,1.15rem)}
+  .letter{width:clamp(38px,6vw,52px);height:clamp(38px,6vw,52px);flex-basis:clamp(38px,6vw,52px)}
+}
+
+</style>
+</head>
+<body>
+<main class='app'>
+  <section id='start' class='screen start active'>
+    <div class='emoji'>🍄</div>
+    <h1>Quiz de Ciências</h1>
+    <p class='subtitle'>7º ano · Reino Fungi e doenças causadas por fungos</p>
+    <div class='pills'><span class='pill'>10 questões</span><span class='pill'>3 primeiras com imagem</span><span class='pill'>TV / datashow</span></div>
+    <p class='teacher'>Prof. Pierre Penteado</p>
+    <button id='startBtn' class='primary'>▶ Iniciar Quiz</button>
+  </section>
+  <section id='quiz' class='screen'>
+    <div class='progress'><div class='pinfo'><span id='qc'></span><span id='sc'></span></div><div class='track'><div id='bar' class='bar'></div></div></div>
+    <article class='card'>
+      <div id='topic' class='topic'></div>
+      <div id='qimg' class='qimg'></div>
+      <h2 id='qtext' class='question'></h2>
+      <div id='opts' class='opts'></div>
+      <div id='fb' class='feedback'></div>
+      <div class='actions'><button id='skip' class='skip'>Pular ➜</button><button id='next' class='next hidden'>Próxima ➜</button></div>
+    </article>
+  </section>
+  <section id='result' class='screen result'>
+    <div class='emoji small'>🌿</div><h2 class='rtitle'>Resultado final</h2><div id='final' class='score'></div><div id='stars' class='stars'></div><p id='msg' class='rmsg'></p><div id='review' class='review'></div><button id='restart' class='primary'>🔄 Tentar Novamente</button>
+  </section>
+</main>
+<script>
+const DATA = [{"topic": "Exemplos de fungos", "image": "img/q01.png", "q": "A imagem mostra cogumelo, mofo e levedura. Esses três são exemplos de:", "options": [["fungos.", 1], ["plantas.", 0], ["vírus.", 0], ["rochas.", 0]], "explanation": "Cogumelos, mofos e leveduras pertencem ao Reino Fungi."}, {"topic": "Decomposição", "image": "img/q02.png", "q": "A imagem mostra fungos atuando na reciclagem da matéria orgânica. Isso destaca a função de:", "options": [["decompositores.", 1], ["predadores.", 0], ["polinizadores.", 0], ["vertebrados.", 0]], "explanation": "Muitos fungos atuam como decompositores, ajudando na reciclagem da matéria orgânica."}, {"topic": "Prevenção", "image": "img/q03.png", "q": "Os cuidados mostrados na imagem ajudam principalmente a prevenir:", "options": [["micoses.", 1], ["quebras de ossos.", 0], ["queda de energia elétrica.", 0], ["transformação de fungos em plantas.", 0]], "explanation": "Higiene e cuidados com pés, toalhas e chinelos ajudam a prevenir micoses."}, {"topic": "Fungos", "image": "", "q": "Os fungos são seres vivos que:", "options": [["não fazem fotossíntese e obtêm alimento de matéria orgânica.", 1], ["são sempre plantas verdes.", 0], ["produzem sementes dentro de frutos.", 0], ["possuem cloroplastos em todas as células.", 0]], "explanation": "Fungos não realizam fotossíntese e obtêm nutrientes de matéria orgânica."}, {"topic": "Exemplos", "image": "", "q": "Qual alternativa apresenta um exemplo de fungo?", "options": [["cogumelo.", 1], ["samambaia.", 0], ["peixe.", 0], ["vírus da gripe.", 0]], "explanation": "Cogumelo é um exemplo de fungo."}, {"topic": "Alimentação", "image": "", "q": "Ao crescer sobre um pão mofado, o fungo está:", "options": [["obtendo nutrientes do alimento.", 1], ["fazendo fotossíntese.", 0], ["produzindo sementes.", 0], ["formando ossos.", 0]], "explanation": "O mofo utiliza matéria orgânica do pão como alimento."}, {"topic": "Doenças fúngicas", "image": "", "q": "Uma micose é geralmente uma doença causada por:", "options": [["fungos.", 1], ["rochas.", 0], ["aves.", 0], ["máquinas.", 0]], "explanation": "Micoses são doenças causadas por fungos."}, {"topic": "Reprodução", "image": "", "q": "Muitos fungos se reproduzem por estruturas chamadas:", "options": [["esporos.", 1], ["frutos.", 0], ["penas.", 0], ["ossos.", 0]], "explanation": "Esporos ajudam os fungos a se espalharem."}, {"topic": "Leveduras", "image": "", "q": "As leveduras podem ser usadas, por exemplo, na produção de:", "options": [["pães.", 1], ["escamas.", 0], ["cloroplastos.", 0], ["raízes.", 0]], "explanation": "Leveduras participam da fermentação usada na produção de pães."}, {"topic": "Classificação", "image": "", "q": "Fungos não são classificados como plantas porque:", "options": [["não realizam fotossíntese como as plantas.", 1], ["todos possuem coração.", 0], ["todos vivem apenas no mar.", 0], ["todos são vírus.", 0]], "explanation": "Fungos não têm clorofila e não realizam fotossíntese."}];
+let qs=[], cur=0, score=0, answered=false, answers=[];
+const $ = id => document.getElementById(id);
+function screen(id){['start','quiz','result'].forEach(x => $(x).classList.remove('active')); $(id).classList.add('active');}
+function startQuiz(){qs=DATA.map(q=>({...q}));cur=0;score=0;answered=false;answers=[];screen('quiz');renderQuestion();}
+function renderQuestion(){const q=qs[cur];answered=false;$('qc').textContent=`Questão ${cur+1} de ${qs.length}`;$('sc').textContent=`${score} ${score===1?'acerto':'acertos'}`;$('bar').style.width=`${(cur/qs.length)*100}%`;$('topic').textContent=`📌 ${q.topic}`;$('qtext').textContent=q.q;if(q.image){$('qimg').innerHTML=`<img src="${q.image}" alt="Imagem da questão">`; $('qimg').classList.add('show');} else {$('qimg').innerHTML='';$('qimg').classList.remove('show');}$('opts').innerHTML='';$('fb').className='feedback';$('fb').innerHTML='';$('skip').classList.remove('hidden');$('next').classList.add('hidden');['A','B','C','D'].forEach((letter,i)=>{const op=q.options[i];const btn=document.createElement('button');btn.className='opt';btn.innerHTML=`<span class="letter">${letter}</span><span>${op[0]}</span>`;btn.onclick=()=>chooseAnswer(i);$('opts').appendChild(btn);});}
+function chooseAnswer(i){if(answered)return;answered=true;const q=qs[cur], selected=q.options[i], correct=q.options.find(op=>op[1]);if(selected[1])score++;answers[cur]={status:selected[1]?'correct':'wrong',selected:selected[0],correct:correct[0],question:q.q,topic:q.topic,explanation:q.explanation};[...$('opts').children].forEach((btn,idx)=>{btn.disabled=true;if(q.options[idx][1])btn.classList.add('correct');if(idx===i && !q.options[idx][1])btn.classList.add('wrong');});$('fb').className=`feedback show ${selected[1]?'good':'bad'}`;$('fb').innerHTML=selected[1]?`✅ <strong>Correto.</strong> ${q.explanation}`:`❌ <strong>Incorreto.</strong> ${q.explanation}`;$('skip').classList.add('hidden');$('next').classList.remove('hidden');$('sc').textContent=`${score} ${score===1?'acerto':'acertos'}`;}
+function skipQuestion(){if(answered)return;const q=qs[cur], correct=q.options.find(op=>op[1]);answers[cur]={status:'skip',selected:'Não respondida',correct:correct[0],question:q.q,topic:q.topic,explanation:q.explanation};nextQuestion();}
+function nextQuestion(){cur++; if(cur>=qs.length){showResult();} else {renderQuestion();}}
+function makeStars(n,total){const r=n/total; let c=1; if(r>=.9)c=5; else if(r>=.75)c=4; else if(r>=.55)c=3; else if(r>=.35)c=2; return '★'.repeat(c)+'☆'.repeat(5-c);} 
+function makeMessage(n,total){const r=n/total; if(r>=.9)return 'Excelente. Você domina bem os conceitos básicos deste conteúdo.'; if(r>=.75)return 'Muito bom. O essencial foi compreendido.'; if(r>=.55)return 'Bom começo. Vale revisar alguns pontos.'; if(r>=.35)return 'Atenção. É melhor retomar o conteúdo com calma.'; return 'Hora de revisar desde o começo e tentar novamente.';}
+function showResult(){$('bar').style.width='100%';screen('result');$('final').textContent=`${score} / ${qs.length}`;$('stars').textContent=makeStars(score,qs.length);$('msg').textContent=makeMessage(score,qs.length);$('review').innerHTML=answers.map((a,i)=>{const statusText=a.status==='correct'?'✅ Acertou':a.status==='wrong'?'❌ Errou':'⏭️ Não respondida';const cls=a.status==='correct'?'ok':a.status==='wrong'?'no':'skip';return `<details><summary>Questão ${i+1} · ${a.topic}</summary><div class='revbody'><span class='tag ${cls}'>${statusText}</span><div><strong>Pergunta:</strong> ${a.question}</div><div class='ans'><strong>Sua resposta:</strong> ${a.selected}</div><div class='ans'><strong>Resposta correta:</strong> ${a.correct}</div><div class='exp muted'><strong>Explicação:</strong> ${a.explanation}</div></div></details>`;}).join('');}
+$('startBtn').onclick=startQuiz; $('next').onclick=nextQuestion; $('skip').onclick=skipQuestion; $('restart').onclick=()=>screen('start');
+</script>
+</body>
+</html>
