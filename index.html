@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prof. Pierre Penteado – Simulados Ciências EF</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{--green:#2d6a4f;--green-light:#52b788;--yellow:#f4d03f;--dark:#1b2b22;--white:#f9fafb}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#1b2b22 0%,#2d6a4f 60%,#52b788 100%);min-height:100vh;padding:clamp(20px,4vw,48px);color:var(--white)}
+header{text-align:center;margin-bottom:clamp(28px,5vw,52px)}header h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,3.2rem);line-height:1.15;text-shadow:0 2px 16px rgba(0,0,0,.3);margin-bottom:8px}header p{font-size:clamp(.95rem,2.5vw,1.3rem);opacity:.78}
+.main-layout{display:grid;grid-template-columns:1fr;gap:clamp(24px,4vw,48px);max-width:1180px;margin:0 auto;align-items:start}
+@media(min-width:900px){.main-layout{grid-template-columns:1.7fr .85fr}.profile-col{position:sticky;top:24px}}
+details{border-radius:18px}.level-details,.series-details,.trimester-details{background:rgba(255,255,255,.055);border:2px solid rgba(255,255,255,.10);backdrop-filter:blur(6px);margin-bottom:16px;overflow:hidden}.series-details{background:rgba(255,255,255,.045);border-width:1px;margin:12px 0}.trimester-details{background:rgba(0,0,0,.10);border-width:1px;margin:10px 0}
+summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:14px;user-select:none}summary::-webkit-details-marker{display:none}
+.level-summary{padding:clamp(16px,3vw,22px);font-family:'Playfair Display',serif;font-size:clamp(1.25rem,3.2vw,1.75rem);font-weight:900;color:var(--yellow)}
+.series-summary{padding:15px clamp(16px,3vw,22px);font-size:clamp(1.03rem,2.6vw,1.25rem);font-weight:900}
+.trimester-summary{padding:13px clamp(16px,3vw,22px);font-size:clamp(.95rem,2.2vw,1.08rem);font-weight:900;color:#d8f3dc}
+.summary-count{font-size:.78rem;font-weight:900;border-radius:999px;padding:4px 9px;background:rgba(244,208,63,.18);border:1px solid rgba(244,208,63,.35);color:var(--yellow);white-space:nowrap}.chevron{transition:transform .2s ease;opacity:.75}details[open]>summary .chevron{transform:rotate(90deg)}.accordion-content{padding:0 clamp(14px,2.6vw,20px) clamp(14px,2.6vw,20px)}
+.series-home{display:block;margin:0 0 12px;padding:12px 16px;border-radius:14px;background:rgba(244,208,63,.16);border:1px solid rgba(244,208,63,.35);color:#fff;text-decoration:none;font-weight:900}
+.quiz-card{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.12);border-radius:14px;padding:clamp(14px,2.5vw,19px) clamp(16px,3vw,22px);margin-bottom:12px;text-decoration:none;color:#fff;transition:all .2s;backdrop-filter:blur(6px)}a.quiz-card:hover{background:rgba(255,255,255,.14);border-color:var(--yellow);transform:translateX(6px);box-shadow:0 4px 24px rgba(0,0,0,.2)}.quiz-card.planned{opacity:.56;cursor:default}.quiz-icon{background:var(--yellow);color:var(--dark);border-radius:50%;width:clamp(40px,7vw,52px);height:clamp(40px,7vw,52px);min-width:clamp(40px,7vw,52px);display:flex;align-items:center;justify-content:center;font-size:clamp(1.1rem,2.5vw,1.5rem);font-weight:900}.quiz-info{flex:1;min-width:0}.quiz-info strong{display:block;font-size:clamp(1rem,2.5vw,1.18rem);font-weight:900;margin-bottom:3px}.quiz-info span{display:block;font-size:clamp(.8rem,2vw,.95rem);opacity:.72;line-height:1.35}.quiz-info code{display:block;margin-top:5px;font-family:Consolas,'Courier New',monospace;font-size:clamp(.68rem,1.6vw,.78rem);opacity:.48;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.quiz-arrow{font-size:1.3rem;opacity:.55}.badge{border-radius:999px;padding:4px 10px;font-size:.74rem;font-weight:900;white-space:nowrap}.badge-ready{background:rgba(183,228,199,.18);color:#d8f3dc;border:1px solid rgba(183,228,199,.35)}.badge-planned{background:rgba(255,255,255,.13);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.18)}
+.profile-card{background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.12);border-radius:20px;padding:clamp(20px,4vw,32px);backdrop-filter:blur(6px);text-align:center}.avatar{width:clamp(120px,28vw,180px);height:clamp(120px,28vw,180px);border-radius:50%;margin:0 auto 16px;display:grid;place-items:center;background:conic-gradient(var(--yellow),var(--green-light),var(--yellow));color:var(--dark);font-family:'Playfair Display',serif;font-size:clamp(2.4rem,8vw,4rem);font-weight:900;border:6px solid rgba(27,43,34,.8);box-shadow:0 8px 28px rgba(0,0,0,.2)}.profile-name{font-family:'Playfair Display',serif;font-size:clamp(1.1rem,3vw,1.5rem);font-weight:900;margin-bottom:6px}.profile-role{font-size:clamp(.85rem,2vw,1rem);opacity:.76;margin-bottom:16px;line-height:1.5}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}.stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.13);border-radius:14px;padding:12px}.stat strong{display:block;color:var(--yellow);font-size:1.35rem;font-weight:900}.stat span{font-size:.78rem;opacity:.74}.note{font-size:clamp(.78rem,2vw,.92rem);opacity:.72;line-height:1.45;text-align:left;background:rgba(0,0,0,.10);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:14px}
+footer{text-align:center;margin-top:clamp(32px,6vw,56px);font-size:clamp(.75rem,2vw,.9rem);opacity:.45}
+@media(max-width:560px){.badge,.quiz-arrow{display:none}.quiz-card{align-items:flex-start;gap:12px}}
+</style>
+</head>
+<body>
+<header><h1>🌿 Simulados Interativos</h1><p>Ciências · Ensino Fundamental II</p></header>
+<div class="main-layout">
+  <div class="quizzes-col">
+    <details class="level-details" open>
+      <summary class="level-summary"><span>🌍 Ensino Fundamental</span><span class="chevron">›</span></summary>
+      <div class="accordion-content">
+        
+        <details class="series-details">
+          <summary class="series-summary"><span>🌍 Ciências – 6º Ano EF <span class="summary-count">18 planejados</span></span><span class="chevron">›</span></summary>
+          <div class="accordion-content">
+            <details class="trimester-details" >
+              <summary class="trimester-summary"><span>1º trimestre <span class="summary-count">6 planejados</span></span><span class="chevron">›</span></summary>
+              <div class="accordion-content">
+
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Investigação científica e materiais</strong><span>Simulado planejado</span><code>simulados/6ano/1tri/investigacao-cientifica-e-materiais/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Substâncias e misturas</strong><span>Simulado planejado</span><code>simulados/6ano/1tri/substancias-e-misturas/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Separação de misturas</strong><span>Simulado planejado</span><code>simulados/6ano/1tri/separacao-de-misturas/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Rochas, minerais e fósseis</strong><span>Simulado planejado</span><code>simulados/6ano/1tri/rochas-minerais-e-fosseis/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Solo: formação, tipos e conservação</strong><span>Simulado planejado</span><code>simulados/6ano/1tri/solo-formacao-tipos-e-conservacao/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Estados físicos da água</strong><span>Simulado planejado</span><code>simulados/6ano/1tri/estados-fisicos-da-agua/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              </div>
+            </details>
+
+            <details class="trimester-details" >
+              <summary class="trimester-summary"><span>2º trimestre <span class="summary-count">6 planejados</span></span><span class="chevron">›</span></summary>
+              <div class="accordion-content">
+
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Hidrosfera e distribuição da água</strong><span>Simulado planejado</span><code>simulados/6ano/2tri/hidrosfera-e-distribuicao-da-agua/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Ciclo da água</strong><span>Simulado planejado</span><code>simulados/6ano/2tri/ciclo-da-agua/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Água potável</strong><span>Simulado planejado</span><code>simulados/6ano/2tri/agua-potavel/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>ETA e ETE</strong><span>Simulado planejado</span><code>simulados/6ano/2tri/eta-e-ete/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Doenças causadas pela água contaminada</strong><span>Simulado planejado</span><code>simulados/6ano/2tri/doencas-causadas-pela-agua-contaminada/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Atmosfera e ar</strong><span>Simulado planejado</span><code>simulados/6ano/2tri/atmosfera-e-ar/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              </div>
+            </details>
+
+            <details class="trimester-details" >
+              <summary class="trimester-summary"><span>3º trimestre <span class="summary-count">6 planejados</span></span><span class="chevron">›</span></summary>
+              <div class="accordion-content">
+
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Doenças causadas pelo ar contaminado</strong><span>Simulado planejado</span><code>simulados/6ano/3tri/doencas-causadas-pelo-ar-contaminado/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Transformações físicas, químicas e reciclagem</strong><span>Simulado planejado</span><code>simulados/6ano/3tri/transformacoes-fisicas-quimicas-e-reciclagem/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Níveis de organização e célula</strong><span>Simulado planejado</span><code>simulados/6ano/3tri/niveis-de-organizacao-e-celula/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Sistema nervoso e saúde</strong><span>Simulado planejado</span><code>simulados/6ano/3tri/sistema-nervoso-e-saude/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Órgãos dos sentidos</strong><span>Simulado planejado</span><code>simulados/6ano/3tri/orgaos-dos-sentidos/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Sistemas esquelético e muscular</strong><span>Simulado planejado</span><code>simulados/6ano/3tri/sistemas-esqueletico-e-muscular/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              </div>
+            </details></div>
+        </details>
+        <details class="series-details" open>
+          <summary class="series-summary"><span>🌳 Ciências – 7º Ano EF <span class="summary-count">22/22 prontos</span></span><span class="chevron">›</span></summary>
+          <div class="accordion-content">
+            <a class="series-home" href="simulados/7ano/">Abrir página do 7º ano completo →</a>
+            
+            <details class="trimester-details" open>
+              <summary class="trimester-summary"><span>1º trimestre <span class="summary-count">7/7 prontos</span></span><span class="chevron">›</span></summary>
+              <div class="accordion-content">
+
+              <a class="quiz-card ready" href="simulados/7ano/1tri/caracteristicas-seres-vivos-e-celula/">
+                <div class="quiz-icon">🌱</div>
+                <div class="quiz-info"><strong>Características dos seres vivos e célula</strong><span>Seres vivos · crescimento · célula</span><code>simulados/7ano/1tri/caracteristicas-seres-vivos-e-celula/</code></div>
+                <span class="badge badge-ready">Disponível</span><span class="quiz-arrow">→</span>
+              </a>
+              <a class="quiz-card ready" href="simulados/7ano/1tri/classificacao-dos-seres-vivos/">
+                <div class="quiz-icon">🌳</div>
+                <div class="quiz-info"><strong>Classificação dos seres vivos</strong><span>Classificação · filogenia · nomenclatura</span><code>simulados/7ano/1tri/classificacao-dos-seres-vivos/</code></div>
+                <span class="badge badge-ready">Disponível</span><span class="quiz-arrow">→</span>
+              </a>
+              <a class="quiz-card ready" href="simulados/7ano/1tri/virus-e-doencas-virais/">
+                <div class="quiz-icon">🦠</div>
+                <div class="quiz-info"><strong>Vírus e doenças virais</strong><span>Vírus · transmissão · prevenção</span><code>simulados/7ano/1tri/virus-e-doencas-virais/</code></div>
+                <span class="badge badge-ready">Disponível</span><span class="quiz-arrow">→</span>
+              </a>
+              <a class="quiz-card ready" href="simulados/7ano/1tri/reino-monera-e-bacterias/">
+                <div class="quiz-icon">🧫</div>
+                <div class="quiz-info"><strong>Reino Monera e bactérias</strong><span>Bactérias · procariontes · prevenção</span><code>simulados/7ano/1tri/reino-monera-e-bacterias/</code></div>
+                <span class="badge badge-ready">Disponível</span><span class="quiz-arrow">→</span>
+              </a>
+              <a class="quiz-card ready" href="simulados/7ano/1tri/reino-protoctista-e-protozoarios/">
+                <div class="quiz-icon">🧬</div>
+                <div class="quiz-info"><strong>Reino Protoctista e protozoários</strong><span>Protoctistas · protozoários · ambientes</span><code>simulados/7ano/1tri/reino-protoctista-e-protozoarios/</code></div>
+                <span class="badge badge-ready">Disponível</span><span class="quiz-arrow">→</span>
+              </a>
+              <a class="quiz-card ready" href="simulados/7ano/1tri/reino-fungi-e-doencas-causadas-por-fungos/">
+                <div class="quiz-icon">🍄</div>
+                <div class="quiz-info"><strong>Reino Fungi e doenças causadas por fungos</strong><span>Fungos · decomposição · micoses</span><code>simulados/7ano/1tri/reino-fungi-e-doencas-causadas-por-fungos/</code></div>
+                <span class="badge badge-ready">Disponível</span><span class="quiz-arrow">→</span>
+              </a>
+              <a class="quiz-card ready" href="simulados/7ano/1tri/ciencia-saude-e-tecnologia/">
+                <div class="quiz-icon">📱</div>
+                <div class="quiz-info"><strong>Ciência, saúde e tecnologia</strong><span>Evidências · fontes · tecnologia na saúde</span><code>simulados/7ano/1tri/ciencia-saude-e-tecnologia/</code></div>
+                <span class="badge badge-ready">Disponível</span><span class="quiz-arrow">→</span>
+              </a>
+              </div>
+            </details>
+
+            <details class="trimester-details" open>
+              <summary class="trimester-summary"><span>2º trimestre <span class="summary-count">8/8 prontos</span></span><span class="chevron">›</span></summary>
+              <div class="accordion-content">
+
+              <a class="quiz-card ready" href="simulados/7ano/2tri/relacoes-ecologicas/">
+                <div class="quiz-icon">🌿</div>
+                <div class="quiz-info"><strong>Relações ecológicas</strong><span>Interações · cadeia alimentar · habitat e nicho</span><code>simulados/7ano/2tri/relacoes-ecologicas/</code></div>
+                <span class="badge badge-ready">Disponível</span><span class="quiz-arrow">→</span>
+              </a>
+              <a class="quiz-card ready" href="simulados/7ano/2tri/reino-plantae-e-cegueira-botanica/">
+                <div class="quiz-icon">🌱</div>
+                <div class="quiz-info"><strong>Reino Plantae e cegueira botânica</strong><span>Plantas · diversidade · importância</span><code>simulados/7ano/2tri/reino-plantae-e-cegueira-botanica/</code></div>
+                <span class="badge badge-ready">Disponível</span><span class="quiz-arrow">→</span>
+              </a>
+              <a class="quiz-card ready" href="simulados/7ano/2tri/reino-das-plantas-i-briofitas-e-pteridofitas/">
+                <div class="quiz-icon">🍃</div>
+                <div class="quiz-info"><strong>Reino das Plantas I: briófitas e pteridófitas</strong><span>Musgos · samambaias · esporos</span><code>simulados/7ano/2tri/reino-das-plantas-i-briofitas-e-pteridofitas/</code></div>
+                <span class="badge badge-ready">Disponível</span><span class="quiz-arrow">→</span>
+              </a>
+              <a class="quiz-card ready" href="simulados/7ano/2tri/reino-das-plantas-ii-gimnospermas-e-angiospermas/">
+                <div class="quiz-icon">🌲</div>
+                <div class="quiz-info"><strong>Reino das Plantas II: gimnospermas e angiospermas</strong><span>Sementes · flores · frutos · polinização</span><code>simulados/7ano/2tri/reino-das-plantas-ii-gimnospermas-e-angiospermas/</code></div>
+                <span class="badge badge-ready">Disponível</span><span class="quiz-arrow">→</span>
+              </a>
+              <a class="quiz-card ready" href="simulados/7ano/2tri/partes-da-planta-i-raiz-caule-e-folha/">
+                <div class="quiz-icon">🌾</div>
+                <div class="quiz-info"><strong>Partes da planta I: raiz, caule e folha</strong><span>Raiz · caule · folha</span><code>simulados/7ano/2tri/partes-da-planta-i-raiz-caule-e-folha/</code></div>
+                <span class="badge badge-ready">Disponível</span><span class="quiz-arrow">→</span>
+              </a>
+              <a class="quiz-card ready" href="simulados/7ano/2tri/partes-da-planta-ii-fotossintese-flor-fruto-e-semente/">
+                <div class="quiz-icon">🌸</div>
+                <div class="quiz-info"><strong>Partes da planta II: fotossíntese, flor, fruto e semente</strong><span>Fotossíntese · flor · fruto · semente</span><code>simulados/7ano/2tri/partes-da-planta-ii-fotossintese-flor-fruto-e-semente/</code></div>
+                <span class="badge badge-ready">Disponível</span><span class="quiz-arrow">→</span>
+              </a>
+              <a class="quiz-card ready" href="simulados/7ano/2tri/invertebrados-i-poriferos-cnidarios-e-platelmintos/">
+                <div class="quiz-icon">🪸</div>
+                <div class="quiz-info"><strong>Invertebrados I: poríferos, cnidários e platelmintos</strong><span>Esponjas · águas-vivas · planárias</span><code>simulados/7ano/2tri/invertebrados-i-poriferos-cnidarios-e-platelmintos/</code></div>
+                <span class="badge badge-ready">Disponível</span><span class="quiz-arrow">→</span>
+              </a>
+              <a class="quiz-card ready" href="simulados/7ano/2tri/invertebrados-ii-vermes-e-doencas/">
+                <div class="quiz-icon">🪱</div>
+                <div class="quiz-info"><strong>Invertebrados II: vermes e doenças</strong><span>Nematelmintos · anelídeos · parasitoses</span><code>simulados/7ano/2tri/invertebrados-ii-vermes-e-doencas/</code></div>
+                <span class="badge badge-ready">Disponível</span><span class="quiz-arrow">→</span>
+              </a>
+              </div>
+            </details>
+
+            <details class="trimester-details" open>
+              <summary class="trimester-summary"><span>3º trimestre <span class="summary-count">7/7 prontos</span></span><span class="chevron">›</span></summary>
+              <div class="accordion-content">
+
+              <a class="quiz-card ready" href="simulados/7ano/3tri/vertebrados-i-peixes-anfibios-e-repteis/">
+                <div class="quiz-icon">🐟</div>
+                <div class="quiz-info"><strong>Vertebrados I: peixes, anfíbios e répteis</strong><span>Peixes · anfíbios · répteis</span><code>simulados/7ano/3tri/vertebrados-i-peixes-anfibios-e-repteis/</code></div>
+                <span class="badge badge-ready">Disponível</span><span class="quiz-arrow">→</span>
+              </a>
+              <a class="quiz-card ready" href="simulados/7ano/3tri/vertebrados-ii-aves-mamiferos-e-primatas/">
+                <div class="quiz-icon">🐦</div>
+                <div class="quiz-info"><strong>Vertebrados II: aves, mamíferos e primatas</strong><span>Aves · mamíferos · primatas</span><code>simulados/7ano/3tri/vertebrados-ii-aves-mamiferos-e-primatas/</code></div>
+                <span class="badge badge-ready">Disponível</span><span class="quiz-arrow">→</span>
+              </a>
+              <a class="quiz-card ready" href="simulados/7ano/3tri/biomas-do-mundo-e-do-brasil/">
+                <div class="quiz-icon">🌎</div>
+                <div class="quiz-info"><strong>Biomas do mundo e do Brasil</strong><span>Biomas mundiais · biomas brasileiros</span><code>simulados/7ano/3tri/biomas-do-mundo-e-do-brasil/</code></div>
+                <span class="badge badge-ready">Disponível</span><span class="quiz-arrow">→</span>
+              </a>
+              <a class="quiz-card ready" href="simulados/7ano/3tri/deriva-continental-e-mudancas-ambientais/">
+                <div class="quiz-icon">🌋</div>
+                <div class="quiz-info"><strong>Deriva continental e mudanças ambientais</strong><span>Deriva continental · chuva ácida · mudanças climáticas</span><code>simulados/7ano/3tri/deriva-continental-e-mudancas-ambientais/</code></div>
+                <span class="badge badge-ready">Disponível</span><span class="quiz-arrow">→</span>
+              </a>
+              <a class="quiz-card ready" href="simulados/7ano/3tri/combustiveis-e-maquinas-termicas/">
+                <div class="quiz-icon">🔥</div>
+                <div class="quiz-info"><strong>Combustíveis e máquinas térmicas</strong><span>Combustíveis · motores · usinas</span><code>simulados/7ano/3tri/combustiveis-e-maquinas-termicas/</code></div>
+                <span class="badge badge-ready">Disponível</span><span class="quiz-arrow">→</span>
+              </a>
+              <a class="quiz-card ready" href="simulados/7ano/3tri/calor-e-temperatura/">
+                <div class="quiz-icon">🌡️</div>
+                <div class="quiz-info"><strong>Calor e temperatura</strong><span>Calor · temperatura · trocas de calor</span><code>simulados/7ano/3tri/calor-e-temperatura/</code></div>
+                <span class="badge badge-ready">Disponível</span><span class="quiz-arrow">→</span>
+              </a>
+              <a class="quiz-card ready" href="simulados/7ano/3tri/maquinas-simples/">
+                <div class="quiz-icon">⚙️</div>
+                <div class="quiz-info"><strong>Máquinas simples</strong><span>Alavancas · plano inclinado · polias · engrenagens</span><code>simulados/7ano/3tri/maquinas-simples/</code></div>
+                <span class="badge badge-ready">Disponível</span><span class="quiz-arrow">→</span>
+              </a>
+              </div>
+            </details>
+          </div>
+        </details>
+        <details class="series-details">
+          <summary class="series-summary"><span>🍎 Ciências – 8º Ano EF <span class="summary-count">20 planejados</span></span><span class="chevron">›</span></summary>
+          <div class="accordion-content">
+            <details class="trimester-details" >
+              <summary class="trimester-summary"><span>1º trimestre <span class="summary-count">8 planejados</span></span><span class="chevron">›</span></summary>
+              <div class="accordion-content">
+
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Organização do corpo humano</strong><span>Simulado planejado</span><code>simulados/8ano/1tri/organizacao-do-corpo-humano/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Sistema digestório e alimentação</strong><span>Simulado planejado</span><code>simulados/8ano/1tri/sistema-digestorio-e-alimentacao/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Sistema respiratório</strong><span>Simulado planejado</span><code>simulados/8ano/1tri/sistema-respiratorio/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Sistema cardiovascular</strong><span>Simulado planejado</span><code>simulados/8ano/1tri/sistema-cardiovascular/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Sistema urinário</strong><span>Simulado planejado</span><code>simulados/8ano/1tri/sistema-urinario/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Sistema locomotor</strong><span>Simulado planejado</span><code>simulados/8ano/1tri/sistema-locomotor/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Sistema nervoso e sentidos</strong><span>Simulado planejado</span><code>simulados/8ano/1tri/sistema-nervoso-e-sentidos/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Sistema endócrino</strong><span>Simulado planejado</span><code>simulados/8ano/1tri/sistema-endocrino/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              </div>
+            </details>
+
+            <details class="trimester-details" >
+              <summary class="trimester-summary"><span>2º trimestre <span class="summary-count">6 planejados</span></span><span class="chevron">›</span></summary>
+              <div class="accordion-content">
+
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Sistema reprodutor e puberdade</strong><span>Simulado planejado</span><code>simulados/8ano/2tri/sistema-reprodutor-e-puberdade/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Gestação e desenvolvimento humano</strong><span>Simulado planejado</span><code>simulados/8ano/2tri/gestacao-e-desenvolvimento-humano/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>ISTs e saúde preventiva</strong><span>Simulado planejado</span><code>simulados/8ano/2tri/ists-e-saude-preventiva/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Terra, Lua e Sol</strong><span>Simulado planejado</span><code>simulados/8ano/2tri/terra-lua-e-sol/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Marés e influência da Lua</strong><span>Simulado planejado</span><code>simulados/8ano/2tri/mares-e-influencia-da-lua/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Tempo, clima e fenômenos atmosféricos</strong><span>Simulado planejado</span><code>simulados/8ano/2tri/tempo-clima-e-fenomenos-atmosfericos/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              </div>
+            </details>
+
+            <details class="trimester-details" >
+              <summary class="trimester-summary"><span>3º trimestre <span class="summary-count">6 planejados</span></span><span class="chevron">›</span></summary>
+              <div class="accordion-content">
+
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Energia e transformações</strong><span>Simulado planejado</span><code>simulados/8ano/3tri/energia-e-transformacoes/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Eletricidade: carga, corrente e tensão</strong><span>Simulado planejado</span><code>simulados/8ano/3tri/eletricidade-carga-corrente-e-tensao/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Circuitos elétricos e segurança</strong><span>Simulado planejado</span><code>simulados/8ano/3tri/circuitos-eletricos-e-seguranca/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Resistência, potência e consumo</strong><span>Simulado planejado</span><code>simulados/8ano/3tri/resistencia-potencia-e-consumo/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Magnetismo</strong><span>Simulado planejado</span><code>simulados/8ano/3tri/magnetismo/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Usinas e fontes de energia</strong><span>Simulado planejado</span><code>simulados/8ano/3tri/usinas-e-fontes-de-energia/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              </div>
+            </details></div>
+        </details>
+        <details class="series-details">
+          <summary class="series-summary"><span>⚛️ Ciências – 9º Ano EF <span class="summary-count">19 planejados</span></span><span class="chevron">›</span></summary>
+          <div class="accordion-content">
+            <details class="trimester-details" >
+              <summary class="trimester-summary"><span>1º trimestre <span class="summary-count">6 planejados</span></span><span class="chevron">›</span></summary>
+              <div class="accordion-content">
+
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Estrutura da matéria e modelos atômicos</strong><span>Simulado planejado</span><code>simulados/9ano/1tri/estrutura-da-materia-e-modelos-atomicos/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Tabela periódica</strong><span>Simulado planejado</span><code>simulados/9ano/1tri/tabela-periodica/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Ligações químicas</strong><span>Simulado planejado</span><code>simulados/9ano/1tri/ligacoes-quimicas/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Substâncias, misturas e funções químicas</strong><span>Simulado planejado</span><code>simulados/9ano/1tri/substancias-misturas-e-funcoes-quimicas/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Reações químicas</strong><span>Simulado planejado</span><code>simulados/9ano/1tri/reacoes-quimicas/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Radioatividade e aplicações</strong><span>Simulado planejado</span><code>simulados/9ano/1tri/radioatividade-e-aplicacoes/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              </div>
+            </details>
+
+            <details class="trimester-details" >
+              <summary class="trimester-summary"><span>2º trimestre <span class="summary-count">6 planejados</span></span><span class="chevron">›</span></summary>
+              <div class="accordion-content">
+
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Movimento, velocidade e aceleração</strong><span>Simulado planejado</span><code>simulados/9ano/2tri/movimento-velocidade-e-aceleracao/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Leis de Newton</strong><span>Simulado planejado</span><code>simulados/9ano/2tri/leis-de-newton/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Forças no cotidiano</strong><span>Simulado planejado</span><code>simulados/9ano/2tri/forcas-no-cotidiano/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Trabalho, energia e máquinas</strong><span>Simulado planejado</span><code>simulados/9ano/2tri/trabalho-energia-e-maquinas/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Ondas: som e luz</strong><span>Simulado planejado</span><code>simulados/9ano/2tri/ondas-som-e-luz/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Óptica: reflexão e refração</strong><span>Simulado planejado</span><code>simulados/9ano/2tri/optica-reflexao-e-refracao/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              </div>
+            </details>
+
+            <details class="trimester-details" >
+              <summary class="trimester-summary"><span>3º trimestre <span class="summary-count">7 planejados</span></span><span class="chevron">›</span></summary>
+              <div class="accordion-content">
+
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Terra e Universo</strong><span>Simulado planejado</span><code>simulados/9ano/3tri/terra-e-universo/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Sistema Solar e movimentos planetários</strong><span>Simulado planejado</span><code>simulados/9ano/3tri/sistema-solar-e-movimentos-planetarios/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Gravitação</strong><span>Simulado planejado</span><code>simulados/9ano/3tri/gravitacao/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Evolução estelar e origem do universo</strong><span>Simulado planejado</span><code>simulados/9ano/3tri/evolucao-estelar-e-origem-do-universo/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Genética e hereditariedade</strong><span>Simulado planejado</span><code>simulados/9ano/3tri/genetica-e-hereditariedade/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Biotecnologia</strong><span>Simulado planejado</span><code>simulados/9ano/3tri/biotecnologia/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              <div class="quiz-card planned">
+                <div class="quiz-icon">▫</div>
+                <div class="quiz-info"><strong>Sustentabilidade e impactos ambientais</strong><span>Simulado planejado</span><code>simulados/9ano/3tri/sustentabilidade-e-impactos-ambientais/</code></div>
+                <span class="badge badge-planned">Planejado</span>
+              </div>
+              </div>
+            </details></div>
+        </details>
+      </div>
+    </details>
+  </div>
+  <div class="profile-col">
+    <div class="profile-card">
+      <div class="avatar">PP</div>
+      <div class="profile-name">Prof. Pierre Penteado</div>
+      <div class="profile-role">Professor de Ciências e Biologia<br>Ensino Fundamental II</div>
+      <div class="stats"><div class="stat"><strong>22</strong><span>simulados prontos</span></div><div class="stat"><strong>79</strong><span>simulados mapeados</span></div></div>
+      <div class="note"><strong>Padrão do projeto:</strong><br>10 questões por simulado. As 3 primeiras com imagem PNG de apoio. As 7 restantes apenas texto. Botão de pular e gabarito ao final.</div>
+    </div>
+  </div>
+</div>
+<footer>Index geral atualizado: 7º ano completo e demais séries já mapeadas.</footer>
+</body>
+</html>

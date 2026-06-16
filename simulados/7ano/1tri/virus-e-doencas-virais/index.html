@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vírus e doenças virais</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Open+Sans:wght@400&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --fs-title: clamp(2rem, 3.6vw, 3.1rem);
+      --fs-sub: clamp(1.02rem, 1.8vw, 1.32rem);
+      --fs-topic: clamp(.86rem, 1.2vw, 1rem);
+      --fs-question: clamp(1.32rem, 2.1vw, 1.86rem);
+      --fs-option: clamp(1.06rem, 1.5vw, 1.30rem);
+      --fs-feedback: clamp(1rem, 1.35vw, 1.14rem);
+      --fs-btn: clamp(1rem, 1.4vw, 1.18rem);
+      --fs-counter: clamp(.92rem, 1.2vw, 1.06rem);
+      --fs-score: clamp(3rem, 6vw, 5rem);
+      --fs-result-title: clamp(1.7rem, 3vw, 2.3rem);
+      --fs-stars: clamp(2rem, 4vw, 2.8rem);
+      --card-pad: clamp(24px, 2.8vw, 38px);
+      --gap: clamp(12px, 1.6vw, 18px);
+      --letter-size: clamp(36px, 3vw, 46px);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;font-family:'Nunito',system-ui,sans-serif;color:#1b2b22;background:linear-gradient(135deg,#1b2b22 0%,#2d6a4f 60%,#52b788 100%);padding:24px;display:flex;align-items:center;justify-content:center}
+    button{font-family:inherit;cursor:pointer;border:0}
+    .app{width:min(1280px,100%);margin:auto}
+    .screen{display:none;animation:fade .28s ease}
+    .screen.active{display:block}
+    @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    .start,.result{text-align:center;color:#fff;padding:26px 0 10px}
+    .emoji{font-size:clamp(4rem,7vw,6.2rem);line-height:1;margin-bottom:12px;filter:drop-shadow(0 12px 20px rgba(0,0,0,.2));animation:float 2.8s ease-in-out infinite}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+    h1{margin:0;font-family:'Playfair Display',Georgia,serif;font-size:var(--fs-title);line-height:1.08;text-shadow:0 5px 18px rgba(0,0,0,.24)}
+    .subtitle{margin:10px 0 0;font-size:var(--fs-sub);font-weight:700;opacity:.95}
+    .pills{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin:22px auto}
+    .pill{padding:9px 14px;border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.14);border-radius:999px;font-size:var(--fs-topic);font-weight:900;text-transform:uppercase;letter-spacing:.04em;backdrop-filter:blur(6px);color:#fff}
+    .teacher{margin:0 0 26px;font-size:1rem;opacity:.78;font-weight:700;color:#fff}
+    .primary,.next{padding:14px 28px;border-radius:50px;font-size:var(--fs-btn);font-weight:900;box-shadow:0 10px 22px rgba(0,0,0,.18);transition:.18s}
+    .primary{background:#f4d03f;color:#1b2b22}.next{background:#2d6a4f;color:#fff}
+    .primary:hover,.next:hover{transform:translateY(-2px)}
+    .skip{background:transparent;color:#999;border:2px solid #999;border-radius:50px;padding:10px 18px;font-size:calc(var(--fs-btn)*.92);font-weight:900;transition:.16s}
+    .skip:hover{color:#fff;border-color:#fff;transform:translateY(-2px)}
+    .progress{margin:0 0 16px;color:#fff}
+    .pinfo{display:flex;justify-content:space-between;gap:12px;font-size:var(--fs-counter);font-weight:900;margin-bottom:8px;text-shadow:0 2px 8px rgba(0,0,0,.18)}
+    .track{height:14px;border-radius:999px;background:rgba(255,255,255,.26);overflow:hidden}
+    .bar{height:100%;width:0;background:#f4d03f;border-radius:999px;transition:.28s}
+    .card{background:#fff;border-radius:20px;box-shadow:0 8px 32px rgba(44,106,79,.13);padding:var(--card-pad);min-height:560px}
+    .topic{color:#2d6a4f;font-size:var(--fs-topic);font-weight:900;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+    .qimg{margin:0 0 18px;border:2px solid #d8f3dc;border-radius:16px;background:#f7fff8;overflow:hidden;display:none}
+    .qimg.show{display:block}
+    .qimg img{display:block;width:100%;height:auto;max-height:270px;object-fit:contain;background:#fff}
+    .question{margin:0 0 22px;font-size:var(--fs-question);line-height:1.25;font-weight:900;color:#1b2b22}
+    .opts{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
+    .opt{display:flex;align-items:center;gap:14px;width:100%;min-height:72px;padding:14px 16px;border-radius:16px;background:#d8f3dc;color:#1b2b22;text-align:left;border:3px solid transparent;font-family:'Open Sans',Arial,Helvetica,sans-serif;font-size:var(--fs-option);font-weight:400;line-height:1.25;transition:.16s}
+    .opt:not(:disabled):hover{transform:translateY(-2px);border-color:rgba(45,106,79,.28)}
+    .opt:disabled{cursor:default}
+    .letter{flex:0 0 var(--letter-size);width:var(--letter-size);height:var(--letter-size);display:inline-flex;align-items:center;justify-content:center;border-radius:50%;background:#2d6a4f;color:#fff;font-family:'Nunito',system-ui,sans-serif;font-weight:900;font-size:1rem}
+    .opt.correct{background:#b7e4c7;border-color:#2d6a4f}.opt.wrong{background:#fce4e4;border-color:#d9534f}.opt.wrong .letter{background:#d9534f}
+    .feedback{display:none;margin-top:18px;padding:16px 18px;border-radius:16px;font-size:var(--fs-feedback);line-height:1.45;font-weight:800}
+    .feedback.show{display:block}.feedback.good{background:#e4f8e9;color:#1f6f46;border:2px solid #b7e4c7}.feedback.bad{background:#fff0f0;color:#9d2a28;border:2px solid #f3b3b3}
+    .actions{display:flex;justify-content:flex-end;gap:12px;margin-top:22px;min-height:54px}
+    .hidden{display:none!important}
+    .score{font-size:var(--fs-score);font-weight:900;line-height:1;margin:10px 0;color:#f4d03f;text-shadow:0 8px 18px rgba(0,0,0,.2)}
+    .stars{font-size:var(--fs-stars);margin:14px 0;letter-spacing:.08em}
+    .rtitle{font-family:'Playfair Display',Georgia,serif;font-size:var(--fs-result-title);margin:0 0 8px}
+    .rmsg{margin:0 auto 22px;max-width:760px;font-size:var(--fs-sub);font-weight:700;line-height:1.35;opacity:.95;color:#fff}
+    .review{margin:20px auto 28px;text-align:left;color:#1b2b22;background:#fff;border-radius:18px;box-shadow:0 8px 32px rgba(44,106,79,.13);overflow:hidden;max-width:1060px}
+    details{border-bottom:1px solid #e5f4e8}details:last-child{border-bottom:0}
+    summary{padding:16px 20px;font-weight:900;cursor:pointer;color:#2d6a4f;font-size:1rem;list-style-position:inside}
+    .revbody{padding:0 20px 18px;font-size:.98rem;line-height:1.45}
+    .tag{display:inline-flex;border-radius:999px;padding:4px 10px;font-size:.82rem;font-weight:900;margin-bottom:12px}
+    .tag.ok{background:#e4f8e9;color:#1f6f46}.tag.no{background:#fff0f0;color:#9d2a28}.tag.skip{background:#eef1f2;color:#586066}
+    .ans,.exp{margin-top:8px}.muted{opacity:.78}
+    @media(max-width:760px){.opts{grid-template-columns:1fr}.card{min-height:unset}.qimg img{max-height:220px}}
+  </style>
+</head>
+<body>
+<main class="app">
+  <section id="start" class="screen start active">
+    <div class="emoji">🦠</div>
+    <h1>Quiz de Ciências</h1>
+    <p class="subtitle">7º ano · Vírus e doenças virais</p>
+    <div class="pills"><span class="pill">10 questões</span><span class="pill">3 primeiras com imagem</span><span class="pill">TV / datashow</span></div>
+    <p class="teacher">Prof. Pierre Penteado</p>
+    <button id="startBtn" class="primary">▶ Iniciar Quiz</button>
+  </section>
+  <section id="quiz" class="screen">
+    <div class="progress"><div class="pinfo"><span id="qc"></span><span id="sc"></span></div><div class="track"><div id="bar" class="bar"></div></div></div>
+    <article class="card">
+      <div id="topic" class="topic"></div><div id="qimg" class="qimg"></div><h2 id="qtext" class="question"></h2><div id="opts" class="opts"></div><div id="fb" class="feedback"></div>
+      <div class="actions"><button id="skip" class="skip">Pular ➜</button><button id="next" class="next hidden">Próxima ➜</button></div>
+    </article>
+  </section>
+  <section id="result" class="screen result">
+    <div class="emoji">🌿</div><h2 class="rtitle">Resultado final</h2><div id="final" class="score"></div><div id="stars" class="stars"></div><p id="msg" class="rmsg"></p><div id="review" class="review"></div><button id="restart" class="primary">🔄 Tentar Novamente</button>
+  </section>
+</main>
+<script>
+const DATA=[{"topic": "Estrutura viral", "image": "img/q01.png", "q": "Observando a imagem, qual estrutura do vírus guarda as instruções para sua multiplicação?", "options": [["material genético.", 1], ["raiz.", 0], ["folha.", 0], ["osso.", 0]], "explanation": "O material genético contém informações importantes para a multiplicação viral."}, {"topic": "Prevenção", "image": "img/q02.png", "q": "A imagem mostra vacinação, lavar as mãos, máscara e cobrir a tosse. Essas atitudes ajudam a:", "options": [["prevenir doenças virais.", 1], ["aumentar a transmissão.", 0], ["produzir fungos.", 0], ["formar sementes.", 0]], "explanation": "Essas medidas reduzem o risco de transmissão de várias doenças virais."}, {"topic": "Multiplicação viral", "image": "img/q03.png", "q": "A sequência da imagem mostra que o vírus precisa de uma célula porque ele:", "options": [["usa a célula para fazer cópias.", 1], ["faz fotossíntese sozinho.", 0], ["produz folhas.", 0], ["vive apenas no solo.", 0]], "explanation": "Vírus dependem de células hospedeiras para se multiplicarem."}, {"topic": "Vírus", "image": "", "q": "Os vírus são diferentes das células porque:", "options": [["não possuem estrutura celular completa.", 1], ["são sempre plantas.", 0], ["possuem raiz, caule e folha.", 0], ["são formados por muitos órgãos.", 0]], "explanation": "Vírus não são células completas."}, {"topic": "Doenças virais", "image": "", "q": "Qual doença pode ser causada por vírus?", "options": [["gripe.", 1], ["fratura.", 0], ["cárie por desgaste.", 0], ["torção no pé.", 0]], "explanation": "A gripe é uma doença viral."}, {"topic": "Transmissão", "image": "", "q": "Muitos vírus respiratórios podem se espalhar principalmente por:", "options": [["gotículas liberadas ao tossir, espirrar ou falar.", 1], ["sementes de plantas.", 0], ["pedras do solo.", 0], ["luz do Sol.", 0]], "explanation": "Vírus respiratórios se espalham pelo ar e pelo contato com secreções."}, {"topic": "Higiene", "image": "", "q": "Lavar as mãos ajuda porque:", "options": [["reduz microrganismos que podem causar doenças.", 1], ["substitui totalmente vacinas.", 0], ["transforma vírus em plantas.", 0], ["impede qualquer tipo de contágio sempre.", 0]], "explanation": "A higiene reduz a chance de transmitir microrganismos."}, {"topic": "Vacinas", "image": "", "q": "As vacinas ajudam o corpo a:", "options": [["se preparar para combater certos vírus.", 1], ["produzir rochas.", 0], ["eliminar a necessidade de higiene.", 0], ["mudar o tipo de sangue.", 0]], "explanation": "Vacinas estimulam a proteção do organismo contra determinadas doenças."}, {"topic": "Antibióticos", "image": "", "q": "Antibióticos, em geral, contra vírus:", "options": [["não funcionam diretamente.", 1], ["são sempre o tratamento principal.", 0], ["substituem vacinas.", 0], ["impedem toda transmissão.", 0]], "explanation": "Antibióticos são usados contra bactérias, não contra vírus."}, {"topic": "Saúde coletiva", "image": "", "q": "Quando muitas pessoas se vacinam, a comunidade pode ficar mais protegida porque:", "options": [["a circulação de certos vírus pode diminuir.", 1], ["ninguém mais precisa de higiene.", 0], ["os vírus viram bactérias.", 0], ["todas as doenças deixam de existir.", 0]], "explanation": "A vacinação em massa ajuda a diminuir a circulação de alguns vírus."}];
+let qs=[],cur=0,score=0,answered=false,answers=[];
+const $=id=>document.getElementById(id);
+function screen(id){['start','quiz','result'].forEach(x=>$(x).classList.remove('active'));$(id).classList.add('active')}
+function startQuiz(){qs=DATA.map(q=>({...q}));cur=0;score=0;answered=false;answers=[];screen('quiz');renderQuestion()}
+function renderQuestion(){
+  const q=qs[cur]; answered=false;
+  $('qc').textContent=`Questão ${cur+1} de ${qs.length}`; $('sc').textContent=`${score} ${score===1?'acerto':'acertos'}`; $('bar').style.width=`${(cur/qs.length)*100}%`;
+  $('topic').textContent=`📌 ${q.topic}`; $('qtext').textContent=q.q;
+  if(q.image){$('qimg').innerHTML=`<img src="${q.image}" alt="Imagem da questão">`; $('qimg').classList.add('show')} else {$('qimg').classList.remove('show'); $('qimg').innerHTML=''}
+  $('opts').innerHTML=''; $('fb').className='feedback'; $('fb').innerHTML=''; $('skip').classList.remove('hidden'); $('next').classList.add('hidden');
+  ['A','B','C','D'].forEach((letter,i)=>{const op=q.options[i]; const btn=document.createElement('button'); btn.className='opt'; btn.innerHTML=`<span class="letter">${letter}</span><span>${op[0]}</span>`; btn.onclick=()=>chooseAnswer(i); $('opts').appendChild(btn)})
+}
+function chooseAnswer(i){
+  if(answered)return; answered=true;
+  const q=qs[cur], selected=q.options[i], correct=q.options.find(op=>op[1]);
+  if(selected[1]) score++;
+  answers[cur]={status:selected[1]?'correct':'wrong',selected:selected[0],correct:correct[0],question:q.q,topic:q.topic,explanation:q.explanation};
+  [...$('opts').children].forEach((btn,idx)=>{btn.disabled=true;if(q.options[idx][1])btn.classList.add('correct');if(idx===i&&!q.options[idx][1])btn.classList.add('wrong')});
+  $('fb').className=`feedback show ${selected[1]?'good':'bad'}`;
+  $('fb').innerHTML=selected[1]?`✅ <strong>Correto.</strong> ${q.explanation}`:`❌ <strong>Incorreto.</strong> ${q.explanation}`;
+  $('skip').classList.add('hidden'); $('next').classList.remove('hidden'); $('sc').textContent=`${score} ${score===1?'acerto':'acertos'}`;
+}
+function skipQuestion(){
+  if(answered)return;
+  const q=qs[cur], correct=q.options.find(op=>op[1]);
+  answers[cur]={status:'skip',selected:'Não respondida',correct:correct[0],question:q.q,topic:q.topic,explanation:q.explanation};
+  nextQuestion();
+}
+function nextQuestion(){cur++; cur>=qs.length?showResult():renderQuestion()}
+function makeStars(n,total){const r=n/total; let c=1; if(r>=.9)c=5; else if(r>=.75)c=4; else if(r>=.55)c=3; else if(r>=.35)c=2; return '★'.repeat(c)+'☆'.repeat(5-c)}
+function makeMessage(n,total){const r=n/total;if(r>=.9)return'Excelente. Você domina bem os conceitos básicos deste conteúdo.';if(r>=.75)return'Muito bom. O essencial foi compreendido.';if(r>=.55)return'Bom começo. Vale revisar alguns pontos.';if(r>=.35)return'Atenção. É melhor retomar o conteúdo com calma.';return'Hora de revisar desde o começo e tentar novamente.'}
+function showResult(){
+  $('bar').style.width='100%'; screen('result'); $('final').textContent=`${score} / ${qs.length}`; $('stars').textContent=makeStars(score,qs.length); $('msg').textContent=makeMessage(score,qs.length);
+  $('review').innerHTML=answers.map((a,i)=>{const statusText=a.status==='correct'?'✅ Acertou':a.status==='wrong'?'❌ Errou':'⏭️ Não respondida'; const cls=a.status==='correct'?'ok':a.status==='wrong'?'no':'skip'; return `<details><summary>Questão ${i+1} · ${a.topic}</summary><div class="revbody"><span class="tag ${cls}">${statusText}</span><div><strong>Pergunta:</strong> ${a.question}</div><div class="ans"><strong>Sua resposta:</strong> ${a.selected}</div><div class="ans"><strong>Resposta correta:</strong> ${a.correct}</div><div class="exp muted"><strong>Explicação:</strong> ${a.explanation}</div></div></details>`}).join('');
+}
+$('startBtn').onclick=startQuiz; $('next').onclick=nextQuestion; $('skip').onclick=skipQuestion; $('restart').onclick=()=>screen('start');
+</script>
+</body>
+</html>

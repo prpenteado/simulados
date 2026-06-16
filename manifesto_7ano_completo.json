@@ -1,0 +1,129 @@
+{
+  "status": "7º ano completo",
+  "simulados_7ano": 22,
+  "trimestres": {
+    "1tri": [
+      {
+        "titulo": "Características dos seres vivos e célula",
+        "slug": "caracteristicas-seres-vivos-e-celula",
+        "caminho": "simulados/7ano/1tri/caracteristicas-seres-vivos-e-celula/"
+      },
+      {
+        "titulo": "Classificação dos seres vivos",
+        "slug": "classificacao-dos-seres-vivos",
+        "caminho": "simulados/7ano/1tri/classificacao-dos-seres-vivos/"
+      },
+      {
+        "titulo": "Vírus e doenças virais",
+        "slug": "virus-e-doencas-virais",
+        "caminho": "simulados/7ano/1tri/virus-e-doencas-virais/"
+      },
+      {
+        "titulo": "Reino Monera e bactérias",
+        "slug": "reino-monera-e-bacterias",
+        "caminho": "simulados/7ano/1tri/reino-monera-e-bacterias/"
+      },
+      {
+        "titulo": "Reino Protoctista e protozoários",
+        "slug": "reino-protoctista-e-protozoarios",
+        "caminho": "simulados/7ano/1tri/reino-protoctista-e-protozoarios/"
+      },
+      {
+        "titulo": "Reino Fungi e doenças causadas por fungos",
+        "slug": "reino-fungi-e-doencas-causadas-por-fungos",
+        "caminho": "simulados/7ano/1tri/reino-fungi-e-doencas-causadas-por-fungos/"
+      },
+      {
+        "titulo": "Ciência, saúde e tecnologia",
+        "slug": "ciencia-saude-e-tecnologia",
+        "caminho": "simulados/7ano/1tri/ciencia-saude-e-tecnologia/"
+      }
+    ],
+    "2tri": [
+      {
+        "titulo": "Relações ecológicas",
+        "slug": "relacoes-ecologicas",
+        "caminho": "simulados/7ano/2tri/relacoes-ecologicas/"
+      },
+      {
+        "titulo": "Reino Plantae e cegueira botânica",
+        "slug": "reino-plantae-e-cegueira-botanica",
+        "caminho": "simulados/7ano/2tri/reino-plantae-e-cegueira-botanica/"
+      },
+      {
+        "titulo": "Reino das Plantas I: briófitas e pteridófitas",
+        "slug": "reino-das-plantas-i-briofitas-e-pteridofitas",
+        "caminho": "simulados/7ano/2tri/reino-das-plantas-i-briofitas-e-pteridofitas/"
+      },
+      {
+        "titulo": "Reino das Plantas II: gimnospermas e angiospermas",
+        "slug": "reino-das-plantas-ii-gimnospermas-e-angiospermas",
+        "caminho": "simulados/7ano/2tri/reino-das-plantas-ii-gimnospermas-e-angiospermas/"
+      },
+      {
+        "titulo": "Partes da planta I: raiz, caule e folha",
+        "slug": "partes-da-planta-i-raiz-caule-e-folha",
+        "caminho": "simulados/7ano/2tri/partes-da-planta-i-raiz-caule-e-folha/"
+      },
+      {
+        "titulo": "Partes da planta II: fotossíntese, flor, fruto e semente",
+        "slug": "partes-da-planta-ii-fotossintese-flor-fruto-e-semente",
+        "caminho": "simulados/7ano/2tri/partes-da-planta-ii-fotossintese-flor-fruto-e-semente/"
+      },
+      {
+        "titulo": "Invertebrados I: poríferos, cnidários e platelmintos",
+        "slug": "invertebrados-i-poriferos-cnidarios-e-platelmintos",
+        "caminho": "simulados/7ano/2tri/invertebrados-i-poriferos-cnidarios-e-platelmintos/"
+      },
+      {
+        "titulo": "Invertebrados II: vermes e doenças",
+        "slug": "invertebrados-ii-vermes-e-doencas",
+        "caminho": "simulados/7ano/2tri/invertebrados-ii-vermes-e-doencas/"
+      }
+    ],
+    "3tri": [
+      {
+        "titulo": "Vertebrados I: peixes, anfíbios e répteis",
+        "slug": "vertebrados-i-peixes-anfibios-e-repteis",
+        "caminho": "simulados/7ano/3tri/vertebrados-i-peixes-anfibios-e-repteis/"
+      },
+      {
+        "titulo": "Vertebrados II: aves, mamíferos e primatas",
+        "slug": "vertebrados-ii-aves-mamiferos-e-primatas",
+        "caminho": "simulados/7ano/3tri/vertebrados-ii-aves-mamiferos-e-primatas/"
+      },
+      {
+        "titulo": "Biomas do mundo e do Brasil",
+        "slug": "biomas-do-mundo-e-do-brasil",
+        "caminho": "simulados/7ano/3tri/biomas-do-mundo-e-do-brasil/"
+      },
+      {
+        "titulo": "Deriva continental e mudanças ambientais",
+        "slug": "deriva-continental-e-mudancas-ambientais",
+        "caminho": "simulados/7ano/3tri/deriva-continental-e-mudancas-ambientais/"
+      },
+      {
+        "titulo": "Combustíveis e máquinas térmicas",
+        "slug": "combustiveis-e-maquinas-termicas",
+        "caminho": "simulados/7ano/3tri/combustiveis-e-maquinas-termicas/"
+      },
+      {
+        "titulo": "Calor e temperatura",
+        "slug": "calor-e-temperatura",
+        "caminho": "simulados/7ano/3tri/calor-e-temperatura/"
+      },
+      {
+        "titulo": "Máquinas simples",
+        "slug": "maquinas-simples",
+        "caminho": "simulados/7ano/3tri/maquinas-simples/"
+      }
+    ]
+  },
+  "padrao": {
+    "questoes_por_simulado": 10,
+    "imagens_por_simulado": 3,
+    "formato": "HTML + PNG",
+    "botao_pular": true,
+    "gabarito_final": true
+  }
+}
